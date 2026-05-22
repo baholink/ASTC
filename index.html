@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acline Start Training Centre (ASTC)</title>
+    <style>
+        /* Amabara n'Imiterere y'Ibanze (Simple styling for professionalism) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background-color: #0d3b66; /* Ibara rya Kinyamwuga - Dark Blue */
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo h1 { margin: 0; font-size: 24px; }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+        .lang-switch {
+            background-color: #f4d35e;
+            color: #0d3b66;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        /* Hero Section (Ahabanza h'Amafoto ya Graduation/Events) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/graduation-main.jpg') no-repeat center center/cover;
+            height: 450px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .hero h2 { font-size: 36px; margin-bottom: 10px; }
+        .hero p { font-size: 20px; max-width: 600px; }
+
+        /* Agace k'Amakuru (Content Sections) */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        .welcome-section img {
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Grid y'Amafoto n'Ibirori */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .event-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .event-card img { width: 100%; height: 200px; object-fit: cover; }
+        .event-card .card-body { padding: 15px; }
+
+        footer {
+            background-color: #0d3b66;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        /* Guhindura ururimi (Kuhisha urundi rurimi) */
+        .lang-rw { display: none; } 
+    </style>
+</head>
+<body>
+
+    <!-- UMUTWE W'URUBUGA (HEADER) -->
+    <header>
+        <div class="logo">
+            <h1>ASTC</h1>
+        </div>
+        <nav>
+            <span class="lang-en"><a href="#about">About Us</a> <a href="#courses">Courses</a> <a href="#gallery">Gallery</a></span>
+            <span class="lang-rw"><a href="#about">Abo turi bo</a> <a href="#courses">Imyuga</a> <a href="#gallery">Amafoto</a></span>
+            <button class="lang-switch" onclick="switchLanguage()">Kinyarwanda</button>
+        </nav>
+    </header>
+
+    <!-- IFOTO NKURU N'ICYEREKEZO (HERO SECTION) -->
+    <section class="hero">
+        <!-- Replace 'images/graduation-main.jpg' with your actual graduation photo path later -->
+        <div class="lang-en">
+            <h2>Welcome to Acline Start Training Centre</h2>
+            <p>Empowering minds, shaping futures through hands-on professional excellence.</p>
+        </div>
+        <div class="lang-rw">
+            <h2>Ikaze muri Acline Start Training Centre</h2>
+            <p>Twubaka ubushobozi, dutegura ejo hazaza binyuze mu bumenyingiro n'imyuga y'indashyikirwa.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- IJAMBO RY'UMUYOBOZI (WELCOME FROM LEADERSHIP) -->
+        <section id="about" class="welcome-section">
+            <!-- Replace 'images/director.jpg' with the leader's photo -->
+            <img src="images/director.jpg" alt="ASTC Director / Principal">
+            <div>
+                <div class="lang-en">
+                    <h3>Message from the Directorate</h3>
+                    <p>At ASTC, we believe that practical knowledge is the key to sustainable development. Our modern training facilities and dedicated staff ensure that every student graduates with market-ready skills and entrepreneurial confidence.</p>
+                </div>
+                <div class="lang-rw">
+                    <h3>Ijambo ry'Ubuyobozi</h3>
+                    <p>Muri ASTC, twemera ko ubumenyi ngiro ari ryo shingiro ry'iterambere rirambye. Ibikoresho byacu bigezweho n'abarimu b'inzobere bituma buri munyeshuri asoza amasomo afite ubumenyi bwifuza ku isoko ry'umurimo n'icyizere cyo kwihangira akazi.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- IBIRORI N'IBIKORWA (EVENTS & GRADUATION GALLERY PREVIEW) -->
+        <section id="gallery">
+            <div class="lang-en">
+                <h3>Recent Events & Graduation Highlights</h3>
+                <p>Take a look at our latest graduation ceremonies, student innovations, and campus life.</p>
+            </div>
+            <div class="lang-rw">
+                <h3>Ibirori n'Ibikorwa Biheruka</h3>
+                <p>Irere amashusho y'ibirori byo gusoza amasomo (Graduation), udushya tw'abanyeshuri, n'ubuzima bwo ku ishuri.</p>
+            </div>
+
+            <div class="events-grid">
+                <!-- Event 1: Graduation -->
+                <div class="event-card">
+                    <img src="images/graduation1.jpg" alt="Graduation Event">
+                    <div class="card-body">
+                        <h4 class="lang-en">Class of 2026 Graduation</h4>
+                        <h4 class="lang-rw">Ibirori byo Gusoza Amasomo 2026</h4>
+                        <p class="lang-en">Celebrating the hard work and success of our professional graduates.</p>
+                        <p class="lang-rw">Gushimira umuhate n'intsinzi by'abanyeshuri bacu basoje imyuga.</p>
+                    </div>
+                </div>
+
+                <!-- Event 2: Workshop / Exhibition -->
+                <div class="event-card">
+                    <img src="images/workshop1.jpg" alt="Practical Training">
+                    <div class="card-body">
+                        <h4 class="lang-en">Practical Innovation Day</h4>
+                        <h4 class="lang-rw">Umunsi w'Ikiranabuhanga n'Udushya</h4>
+                        <p class="lang-en">Students showcasing their hands-on projects to industry partners.</p>
+                        <p class="lang-rw">Abanyeshuri berekana imihigo n'imishinga bakoze mu ntoki.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Acline Start Training Centre (ASTC). All Rights Reserved.</p>
+    </footer>
+
+    <!-- JAVASCRIPT FOR LANGUAGE SWITCHING -->
+    <script>
+        let currentLang = 'en';
+        function switchLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            const btn = document.querySelector('.lang-switch');
+
+            if (currentLang === 'en') {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'block');
+                btn.textContent = 'English';
+                currentLang = 'rw';
+            } else {
+                enElements.forEach(el => el.style.display = 'block');
+                rwElements.forEach(el => el.style.display = 'none');
+                btn.textContent = 'Kinyarwanda';
+                currentLang = 'en';
+            }
+        }
+    </script>
+</body>
+</html>
