@@ -3,425 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acline Start Training Centre (ASTC)</title>
-    <!-- Font Awesome for Modern Icons -->
+    <title>ASTC - Unified Authentication Gateway</title>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0f172a; /* Deep Tech Blue */
-            --secondary-color: #2563eb; /* Modern Blue */
-            --accent-color: #f59e0b; /* Premium Gold */
-            --text-dark: #334155;
-            --text-light: #f8fafc;
-            --bg-light: #f1f5f9;
+            --primary-color: #0f172a;
+            --secondary-color: #2563eb;
+            --accent-color: #10b981;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
             --border-color: #e2e8f0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
         body {
-            background-color: #ffffff;
+            background: radial-gradient(circle at top right, #f1f5f9 0%, #cbd5e1 100%);
             color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Top Bar Information */
-        .top-bar {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px 5%;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            font-size: 14px;
-            border-bottom: 1px solid #1e293b;
+            padding: 20px;
         }
-        .top-bar a { color: white; text-decoration: none; margin-left: 15px; }
-        .top-bar a:hover { color: var(--accent-color); }
 
-        .lang-btn {
-            background: var(--secondary-color);
+        .auth-container {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header h1 { font-size: 28px; color: var(--primary-color); font-weight: 800; }
+        .auth-header h1 span { color: var(--secondary-color); }
+        .auth-header p { color: #64748b; font-size: 14px; margin-top: 5px; }
+
+        /* Tabs Switching Button Style */
+        .auth-tabs {
+            display: flex;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: white;
+            color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .form-box { display: none; }
+        .form-box.active { display: block; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+        
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            color: #94a3b8;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+        .form-control:focus { border-color: var(--secondary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        
+        /* Eye icon style to see password */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            left: auto !important;
+            cursor: pointer;
+            color: #64748b !important;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 6px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            border-radius: 4px;
-            font-weight: bold;
             transition: 0.3s;
+            margin-top: 10px;
         }
-        .lang-btn:hover { background: #1d4ed8; }
+        .action-btn:hover { background: var(--secondary-color); }
 
-        /* Navigation Header */
-        header {
-            background: white;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            padding: 18px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--primary-color);
-            letter-spacing: -0.5px;
-        }
-        .logo span { color: var(--secondary-color); }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-            align-items: center;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
-            transition: 0.3s;
-            font-size: 15px;
-        }
-        nav a:hover { color: var(--secondary-color); }
-
-        /* Dropdown Portal Selector */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .portal-btn {
-            background: var(--primary-color);
-            color: white !important;
-            padding: 10px 22px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .portal-btn:hover { background: var(--secondary-color); }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 200px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            border-radius: 6px;
-            overflow: hidden;
-            right: 0;
-            top: 45px;
-            border: 1px solid var(--border-color);
-        }
-        .dropdown-content a {
-            color: var(--text-dark);
-            padding: 12px 16px;
-            display: block;
+        .switch-prompt {
+            text-align: center;
+            margin-top: 15px;
             font-size: 14px;
-        }
-        .dropdown-content a:hover { background-color: var(--bg-light); color: var(--secondary-color); }
-        .dropdown:hover .dropdown-content { display: block; }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            height: 75vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-        }
-        .hero h1 { font-size: 52px; margin-bottom: 20px; font-weight: 800; letter-spacing: -1px; }
-        .hero p { font-size: 20px; max-width: 800px; margin-bottom: 35px; color: #cbd5e1; }
-        .hero .btn-group { display: flex; gap: 15px; }
-        .hero .btn {
-            padding: 14px 32px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 6px;
-            transition: 0.3s;
-            font-size: 16px;
-        }
-        .hero .btn-primary { background: var(--secondary-color); color: white; }
-        .hero .btn-primary:hover { background: #1d4ed8; }
-        .hero .btn-outline { border: 2px solid white; color: white; }
-        .hero .btn-outline:hover { background: white; color: var(--primary-color); }
-
-        /* Dynamic Sections General UI */
-        section { padding: 80px 5%; }
-        .section-title {
-            font-size: 34px;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 800;
-        }
-        .section-subtitle {
-            text-align: center;
             color: #64748b;
-            margin-bottom: 50px;
-            font-size: 16px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
         }
+        .switch-prompt a { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
 
-        /* Announcement Section */
-        .announcements-bg { background: var(--bg-light); }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+        /* Dynamic Reg Number Display Box */
+        .reg-success-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+            text-align: center;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-            border-top: 4px solid var(--secondary-color);
-            transition: 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
-        .card-date { color: var(--accent-color); font-weight: bold; font-size: 13px; display: block; margin-bottom: 10px; }
-        .card h3 { font-size: 18px; color: var(--primary-color); margin-bottom: 12px; }
-        .card p { color: #475569; font-size: 15px; }
-
-        /* Media / Event Gallery Showcase Section */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 240px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .gallery-item:hover img { transform: scale(1.1); }
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
-            padding: 20px;
-            color: white;
-        }
-        .gallery-overlay h4 { font-size: 16px; font-weight: bold; }
-        .gallery-overlay p { font-size: 12px; color: #cbd5e1; }
-
-        /* Footer Section */
-        footer {
-            background: var(--primary-color);
-            color: var(--text-light);
-            padding: 70px 5% 30px 5%;
-            border-top: 4px solid var(--secondary-color);
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        .footer-section h3 { margin-bottom: 25px; color: white; font-size: 18px; font-weight: 700; position: relative; }
-        .footer-section h3::after { content: ''; width: 40px; height: 3px; background: var(--secondary-color); position: absolute; bottom: -8px; left: 0; }
-        .footer-section p, .footer-section a { font-size: 15px; color: #94a3b8; text-decoration: none; }
-        .footer-section p { margin-bottom: 12px; }
-        
-        .social-icons a {
-            color: white;
-            font-size: 20px;
-            margin-right: 15px;
-            transition: 0.3s;
-            background: #1e293b;
-            padding: 10px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px; height: 40px;
-        }
-        .social-icons a:hover { color: white; background: var(--secondary-color); }
-
-        .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid #1e293b; font-size: 14px; color: #64748b; }
-
-        .lang-rw { display: none; }
+        .reg-success-box strong { color: #166534; font-size: 18px; display: block; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <!-- Top Bar with Core Institutional Info -->
-    <div class="top-bar">
-        <div>
-            <i class="fa-solid fa-envelope"></i> contact@astc.ac.rw | <i class="fa-solid fa-phone"></i> +250 788 000 000
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>ASTC<span>.</span> Gate</h1>
+            <p>Acline Start Training Centre Ecosystem</p>
         </div>
-        <div>
-            <div class="social-icons" style="display: inline-block; margin-right: 20px; vertical-align: middle;">
-                <a href="#" style="width:25px; height:25px; font-size:12px; padding:0;"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="#" style="width:25px; height:25px; font-size:12px; padding:0;"><i class="fa-brands fa-twitter"></i></a>
+
+        <!-- Tab Links -->
+        <div class="auth-tabs">
+            <button class="tab-btn active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+            <button class="tab-btn" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> Student Sign Up</button>
+        </div>
+
+        <!-- ================= 1. LOGIN FORM ================= -->
+        <div id="loginFormBox" class="form-box active">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Username / Reg Number / Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="loginUser" class="form-control" placeholder="Enter your credentials" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between;">
+                        <label>Password</label>
+                        <a href="#" onclick="forgotPassword()" style="font-size: 13px; color: var(--secondary-color); text-decoration: none;">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassVisibility('loginPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="action-btn">Sign In to Campus</button>
+            </form>
+        </div>
+
+        <!-- ================= 2. REGISTRATION FORM (STUDENT) ================= -->
+        <div id="registerFormBox" class="form-box">
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <input type="text" id="studentName" class="form-control" placeholder="John Doe" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="studentEmail" class="form-control" placeholder="name@example.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select Faculty (Ishami ushaka kwiga)</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-layer-group" style="z-index: 10;"></i>
+                        <select id="studentFaculty" class="form-control" style="padding-left: 40px;" required>
+                            <option value="">-- Choose Faculty --</option>
+                            <option value="SD">Software Development</option>
+                            <option value="HN">Hardware & Networking</option>
+                            <option value="CEN">Civil Engineering</option>
+                            <option value="ET">Electricity Tech</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Create Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="regPassword" class="form-control" placeholder="Create strong password" required>
+                        <i class="fa-solid fa-eye toggle-password" onclick="togglePassVisibility('regPassword')"></i>
+                    </div>
+                </div>
+                <button type="submit" class="action-btn" style="background: var(--accent-color);">Generate Account & Reg No.</button>
+            </form>
+
+            <!-- Box yerekana Reg number yashinzwe -->
+            <div id="regSuccessBox" class="reg-success-box">
+                <span style="color: #15803d; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Account Created Successfully!</span>
+                <p style="font-size: 13px; color: #475569; margin-top: 5px;">Koresha iyi Reg Number nka username winjira:</p>
+                <strong id="generatedRegNum">ASTC/2026/SD/1234</strong>
             </div>
-            <button class="lang-btn" onclick="toggleLanguage()">Kinyarwanda</button>
         </div>
+
     </div>
 
-    <!-- Main Navigation Header System -->
-    <header>
-        <div class="logo">ASTC<span>.</span></div>
-        <nav>
-            <ul>
-                <li><a href="#" class="lang-en">Home</a><a href="#" class="lang-rw">Ahabanza</a></li>
-                <li><a href="#announcements" class="lang-en">Announcements</a><a href="#announcements" class="lang-rw">Amatangazo</a></li>
-                <li><a href="#events" class="lang-en">Events & Media</a><a href="#events" class="lang-rw">Ibirori</a></li>
-                <li><a href="#blogs" class="lang-en">Insights</a><a href="#blogs" class="lang-rw">Amakuru</a></li>
-                <!-- GATEWAY DROPDOWN TO PORTALS -->
-                <li class="dropdown">
-                    <a href="#" class="portal-btn">
-                        <i class="fa-solid fa-lock"></i> <span class="lang-en">Portals Gateway</span><span class="lang-rw">Inzego z'Ikigo</span> <i class="fa-solid fa-chevron-down"></i>
-                    </a>
-                    <div class="dropdown-content">
-                        <a href="portal.html"><i class="fa-solid fa-user-graduate"></i> Student Portal</a>
-                        <a href="teacher.html"><i class="fa-solid fa-chalkboard-user"></i> Teacher Portal</a>
-                        <a href="admin.html"><i class="fa-solid fa-user-gear"></i> Administration</a>
-                        <a href="chat.html"><i class="fa-solid fa-comments"></i> Campus Live Chat</a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Showcase Section -->
-    <section class="hero">
-        <h1 class="lang-en">Shape Your Future With Premium Skills</h1>
-        <h1 class="lang-rw">Yaka Ejo Hazaza Haza n'Ubumenyi Bwiza</h1>
-        <p class="lang-en">Welcome to Acline Start Training Centre (ASTC). We deliver high-standard education, advanced technological pathways, and industrial excellence frameworks.</p>
-        <p class="lang-rw">Murakaza neza kuri Acline Start Training Centre (ASTC). Dutanga uburezi bufite ireme, n'imyuga ishingiye ku nkingi z'ikoranabuhanga rigezweho.</p>
-        <div class="btn-group">
-            <a href="portal.html" class="btn btn-primary lang-en">Student Portal</a>
-            <a href="portal.html" class="btn btn-primary lang-rw">Portal y'Abanyeshuri</a>
-            <a href="#announcements" class="btn btn-outline lang-en">View Notices</a>
-            <a href="#announcements" class="btn btn-outline lang-rw">Reba Amatangazo</a>
-        </div>
-    </section>
-
-    <!-- DYNAMIC ANNOUNCEMENTS SECTION (Connected to Firebase Firestore) -->
-    <section id="announcements" class="announcements-bg">
-        <h2 class="section-title lang-en">Official Announcements</h2>
-        <h2 class="section-title lang-rw">Amatangazo Yanditswe</h2>
-        <p class="section-subtitle lang-en">Stay up to date with the latest academic operations, directives, and verified notifications from ASTC Administration.</p>
-        <p class="section-subtitle lang-rw">Kurikirana amatangazo n'imyanzuro bishya biba byasohotse binyuze mu buyobozi bukuru bwa ASTC.</p>
-        
-        <div class="grid-container" id="announcementContainer">
-            <!-- Loading Placeholder / If Firebase is empty, model displays -->
-            <div class="card">
-                <span class="card-date">System Alert</span>
-                <h3 class="lang-en">Connecting to Campus Database...</h3>
-                <h3 class="lang-rw">Iri guhuza na Database y'Ikigo...</h3>
-                <p class="lang-en">Please wait while we sync active notices from administration panel.</p>
-                <p class="lang-rw">Tegereza gato amatangazo ari guhuzwa ako kanya avuye ku buyobozi.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- CAMPUS LIVE EVENTS & PHOTO GALLERY DISPLAY SECTION -->
-    <section id="events">
-        <h2 class="section-title lang-en">Events & Campus Life</h2>
-        <h2 class="section-title lang-rw">Ibirori n'Ubuzima bw'Ikigo</h2>
-        <p class="section-subtitle lang-en">A visual insight into our high-profile graduation ceremonies, administrative leadership actions, and engineering workshops.</p>
-        <p class="section-subtitle lang-rw">Isura n'amashusho y'ibirori bya Graduation, inama z'abayobozi, n'ibikorwa by'abanyeshuri mu ma-workshops.</p>
-        
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="ASTC Graduation">
-                <div class="gallery-overlay">
-                    <h4 class="lang-en">Annual Graduation Ceremony</h4>
-                    <h4 class="lang-rw">Ibirori ngarukamwaka rya Graduation</h4>
-                    <p class="lang-en">Celebrating industrial excellence</p><p class="lang-rw">Kwishimira intsinzi n'ubumenyi bwasaruwe</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80" alt="ASTC Board">
-                <div class="gallery-overlay">
-                    <h4 class="lang-en">Leadership & Management Board</h4>
-                    <h4 class="lang-rw">Inama y'Abayobozi n'Abatsinzi</h4>
-                    <p class="lang-en">Strategic academic alignment</p><p class="lang-rw">Gushyiraho ingamba z'ubwubatsi bw'ejo</p>
-                </div>
-            </div>
-            <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80" alt="ASTC Engineering Work">
-                <div class="gallery-overlay">
-                    <h4 class="lang-en">Advanced Engineering Workshop</h4>
-                    <h4 class="lang-rw">Ibikorwa bya Pratiqué Muri Workshop</h4>
-                    <p class="lang-en">Hands-on industrial frameworks</p><p class="lang-rw">Ubumenyi bw'ingiro bufatika</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- DYNAMIC BLOGS / INSIGHTS SECTION (Connected to Firebase Firestore) -->
-    <section id="blogs" class="announcements-bg">
-        <h2 class="section-title lang-en">Latest Insights & Innovations</h2>
-        <h2 class="section-title lang-rw">Amakuru n'Inyandiko mshya</h2>
-        <p class="section-subtitle lang-en">Read comprehensive articles posted by ASTC faculty regarding career growth and structural evolution.</p>
-        <p class="section-subtitle lang-rw">Soma inyandiko zizewe zandikwa n'abarimu n'inzobere ba ASTC zivuga ku iterambere ry'akazi.</p>
-
-        <div class="grid-container" id="blogContainer">
-            <!-- Data loads from Firebase collection 'blogs' -->
-            <div class="card">
-                <h3>Connecting to Media Hub...</h3>
-                <p>Loading the latest insights and tech evolutionary reports from campus...</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Premium Footer Infrastructure Layout -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ASTC Campus</h3>
-                <p class="lang-en">Acline Start Training Centre is an industry-leading modern academy dedicated to building career pathways with professional innovation frameworks.</p>
-                <p class="lang-rw">Acline Start Training Centre ni ikigo cy'indashyikirwa mu mishinga y'ejo hazaza hifashishijwe ireme ry'uburezi kinyamwuga.</p>
-            </div>
-            <div class="footer-section">
-                <h3 class="lang-en">Campus Location</h3>
-                <h3 class="lang-rw">Aho Tuba</h3>
-                <p><i class="fa-solid fa-location-dot" style="color:var(--secondary-color);"></i> Kigali, Rwanda</p>
-                <p><i class="fa-solid fa-phone" style="color:var(--secondary-color);"></i> +250 788 000 000</p>
-                <p><i class="fa-solid fa-envelope" style="color:var(--secondary-color);"></i> registration@astc.ac.rw</p>
-            </div>
-            <div class="footer-section">
-                <h3 class="lang-en">Connect With Us</h3>
-                <h3 class="lang-rw">Tuvugishe</h3>
-                <div class="social-icons">
-                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 Acline Start Training Centre (ASTC). All Rights Reserved Framework.</p>
-        </div>
-    </footer>
-
-    <!-- FIREBASE INTEGRATION & CORE SYNC CORE ENGINE -->
+    <!-- FIREBASE AUTHENTICATION CENTRAL HUB -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Configuration (Yanditswe nawe)
+        // Firebase Configuration (Iyawe bwite)
         const firebaseConfig = {
             apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
             authDomain: "astc-424a7.firebaseapp.com",
@@ -435,77 +252,146 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // 1. SYNCING OFFICIAL ANNOUNCEMENTS FROM FIREBASE
-        // Iyi ihora ireba niba admin hari itangazo rishya yashyize kuri admin panel, ikarihita iryereka umuntu wese uri hanze
-        const annQuery = query(collection(db, "announcements"), orderBy("timestamp", "desc"));
-        onSnapshot(annQuery, (snapshot) => {
-            const container = document.getElementById('announcementContainer');
-            if(!snapshot.empty) {
-                container.innerHTML = "";
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    container.innerHTML += `
-                        <div class="card">
-                            <span class="card-date"><i class="fa-solid fa-calendar-days"></i> ${data.date || 'Notice'}</span>
-                            <h3><span class="lang-en">${data.title_en}</span><span class="lang-rw" style="display:none;">${data.title_rw}</span></h3>
-                            <p>${data.message}</p>
-                        </div>
-                    `;
+        // --- 1. HANDLING STUDENT REGISTRATION & UNIQUE REG NO. ---
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const faculty = document.getElementById('studentFaculty').value;
+            const password = document.getElementById('regPassword').value;
+
+            // Gukora Unique Reg Number idahuza n'iy'abandi (ASTC / Umwaka / Inyuti z'Ishami / Random 4 Digits)
+            const randomDigits = Math.floor(1000 + Math.random() * 9000);
+            const regNumber = `ASTC/2026/${faculty}/${randomDigits}`;
+
+            try {
+                // Kubika umunyeshuri muri Firebase muri collection ya "users" hifashishijwe Reg number nk'umwirondoro (Document ID)
+                await setDoc(doc(db, "users", regNumber), {
+                    regNumber: regNumber,
+                    name: name,
+                    email: email,
+                    faculty: faculty,
+                    password: password, // Muri system ihamye ino password iba ikwiriye guhashwa (hashed), ariko ku ishuri ryawe niko ubika ngo uyibone neza
+                    role: "student"
                 });
-                // Gusubiramo uburyo bwo kureba ururimi ruri gukoreshwa
-                maintainLanguageView();
+
+                // Kwereka umunyeshuri Reg Number ye
+                document.getElementById('generatedRegNum').innerText = regNumber;
+                document.getElementById('regSuccessBox').style.display = 'block';
+                document.getElementById('registerForm').reset();
+                
+                alert("Registration Complete! Copy your Reg Number to Login.");
+            } catch (error) {
+                console.error("Error creating account: ", error);
+                alert("Registration failed. Try again.");
             }
         });
 
-        // 2. SYNCING REAL-TIME BLOGS FROM FIREBASE
-        const blogQuery = query(collection(db, "blogs"), orderBy("timestamp", "desc"));
-        onSnapshot(blogQuery, (snapshot) => {
-            const container = document.getElementById('blogContainer');
-            if(!snapshot.empty) {
-                container.innerHTML = "";
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    container.innerHTML += `
-                        <div class="card" style="border-top-color: var(--success-color);">
-                            <span class="card-date" style="color:var(--success-color);"><i class="fa-solid fa-tags"></i> ${data.tag}</span>
-                            <h3>${data.title}</h3>
-                            <p>${data.summary}</p>
-                        </div>
-                    `;
-                });
+        // --- 2. UNIFIED LOGIN SYSTEM (STUDENT, TEACHER, ADMIN) ---
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const userInput = document.getElementById('loginUser').value.trim();
+            const passInput = document.getElementById('loginPassword').value;
+
+            // Kureba niba ari Credentials z'Ubuyobozi cyangwa Abarimu (Hardcoded for simplicity or security checks)
+            if (userInput === "admin@astc.ac.rw" && passInput === "admin2026") {
+                alert("Welcome Admin!");
+                window.location.href = "admin.html";
+                return;
+            }
+            if (userInput === "teacher@astc.ac.rw" && passInput === "teacher2026") {
+                alert("Welcome Instructor!");
+                window.location.href = "teacher.html";
+                return;
+            }
+
+            // Niba atari admin cyangwa mwarimu, system ihita ijya muri database gushakisha uyu muntu nka "Student" ikoresheje Reg number nka Username
+            try {
+                const userDocRef = doc(db, "users", userInput);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const userData = userDocSnap.data();
+                    if (userData.password === passInput) {
+                        alert(`Welcome back, ${userData.name}!`);
+                        // Kubika amakuru muri Session kugira ngo Student portal imumenye
+                        sessionStorage.setItem("currentStudentReg", userData.regNumber);
+                        sessionStorage.setItem("currentStudentName", userData.name);
+                        window.location.href = "portal.html";
+                    } else {
+                        alert("Incorrect password! Please try again.");
+                    }
+                } else {
+                    alert("User/Reg Number not found in campus directory!");
+                }
+            } catch (error) {
+                console.error("Login process error: ", error);
+                alert("Network error during verification.");
             }
         });
 
-        // Uburyo bwo kurinda ururimi guhinduka nabi iyo amakuru avuye kuri Firebase aje
-        function maintainLanguageView() {
-            const currentLang = window.currentLanguageState || "en";
-            const enElements = document.querySelectorAll('.lang-en');
-            const rwElements = document.querySelectorAll('.lang-rw');
-            if (currentLang === "rw") {
-                enElements.forEach(el => el.style.display = 'none');
-                rwElements.forEach(el => el.style.display = 'inline-block');
+        // --- 3. FORGOT / RESET PASSWORD FUNCTIONALITY ---
+        window.forgotPassword = async function() {
+            const regNum = prompt("Enter your Registration Number (Reg No.) to change password:");
+            if (!regNum) return;
+
+            try {
+                const userDocRef = doc(db, "users", regNum);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const newPassword = prompt("User found! Enter your NEW password:");
+                    if (newPassword && newPassword.length >= 4) {
+                        // Guhindura password muri database
+                        await setDoc(userDocRef, { password: newPassword }, { merge: true });
+                        alert("Password updated successfully! You can now login.");
+                    } else {
+                        alert("Password change canceled or too short.");
+                    }
+                } else {
+                    alert("This Reg Number does not exist in our directory.");
+                }
+            } catch (error) {
+                console.error("Error resetting password: ", error);
             }
         }
     </script>
 
-    <!-- Language Engine Switch Logic -->
+    <!-- JavaScript For Tabs Switch and Password Visibility Switch -->
     <script>
-        window.currentLanguageState = "en";
-        function toggleLanguage() {
-            const enElements = document.querySelectorAll('.lang-en');
-            const rwElements = document.querySelectorAll('.lang-rw');
-            const btn = document.querySelector('.lang-btn');
+        function switchTab(tab) {
+            const loginBox = document.getElementById('loginFormBox');
+            const regBox = document.getElementById('registerFormBox');
+            const buttons = document.querySelectorAll('.tab-btn');
 
-            if (window.currentLanguageState === "en") {
-                enElements.forEach(el => el.style.display = 'none');
-                rwElements.forEach(el => el.style.display = 'inline-block');
-                btn.innerText = "English";
-                window.currentLanguageState = "rw";
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (tab === 'login') {
+                loginBox.classList.add('active');
+                regBox.classList.remove('active');
+                event.currentTarget.classList.add('active');
             } else {
-                enElements.forEach(el => el.style.display = 'inline-block');
-                rwElements.forEach(el => el.style.display = 'none');
-                btn.innerText = "Kinyarwanda";
-                window.currentLanguageState = "en";
+                loginBox.classList.remove('active');
+                regBox.classList.add('active');
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        // Kureba password ko ariyo washyizemo (Toggle View Password)
+        function togglePassVisibility(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const icon = event.currentTarget;
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
         }
     </script>
