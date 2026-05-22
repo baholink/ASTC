@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTC - Student Portal</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Deep Tech Blue */
+            --secondary-color: #2563eb; /* Modern Blue */
+            --accent-color: #ef4444; /* Exam Red/Alert */
+            --success-color: #10b981; /* Green */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-brand {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #334155;
+        }
+        .sidebar-brand span { color: var(--secondary-color); }
+
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .menu-item.active a, .menu-item a:hover {
+            background: rgba(37, 99, 235, 0.15);
+            color: white;
+        }
+
+        /* Main Workspace */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .student-info-bar {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+        .student-info-bar span strong { color: var(--secondary-color); }
+
+        /* Grid Layout */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .panel-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .panel-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Exams & Quiz Links Section */
+        .exam-box {
+            background: #fef2f2;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .exam-details h4 { color: #991b1b; font-size: 16px; margin-bottom: 5px; }
+        .exam-details p { font-size: 13px; color: #7f1d1d; }
+        
+        .quiz-btn {
+            background: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quiz-btn:hover { background: #b91c1c; }
+
+        /* Announcements & Notices */
+        .notice-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+        .notice-item:last-child { border: none; }
+        .notice-meta { font-size: 12px; color: var(--secondary-color); font-weight: bold; }
+        .notice-item h3 { font-size: 15px; margin: 5px 0; color: var(--primary-color); }
+        .notice-item p { font-size: 14px; color: #475569; }
+
+        /* Course List View */
+        .course-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .course-row:last-child { border: none; }
+        .progress-bar {
+            width: 120px;
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill { background: var(--success-color); height: 100%; }
+
+        .lang-rw { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-brand">ASTC<span>.</span> Portal</div>
+        <ul class="menu-list">
+            <li class="menu-item active">
+                <a href="#"><i class="fa-solid fa-house-user"></i> <span class="lang-en">Dashboard</span><span class="lang-rw">Ahabanza</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="chat.html"><i class="fa-solid fa-comments"></i> <span class="lang-en">Classroom Chat</span><span class="lang-rw">Uruganiriro</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i> <span class="lang-en">Logout</span><span class="lang-rw">Gusohoka</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-content">
+        <div class="header-area">
+            <div>
+                <h1 class="lang-en">Student Workspace</h1>
+                <h1 class="lang-rw">Umwanya w'Umunyeshuri</h1>
+                <p style="color:#64748b;" class="lang-en">Access your exclusive academic resources, links, and updates.</p>
+                <p style="color:#64748b;" class="lang-rw">Sura ibikoresho by'amasomo, ama-link y'ibizamini, n'amakuru yawe.</p>
+            </div>
+            <button onclick="toggleLanguage()" style="background:white; border:1px solid var(--border-color); padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fa-solid fa-language"></i> Toggle Language</button>
+        </div>
+
+        <!-- Student Quick Profile Info Bar -->
+        <div class="student-info-bar">
+            <span><i class="fa-solid fa-user"></i> <span class="lang-en">Student:</span><span class="lang-rw">Umunyeshuri:</span> <strong>Mugisha Eric</strong></span>
+            <span><i class="fa-solid fa-id-card"></i> Reg No: <strong>ASTC/2026/089</strong></span>
+            <span><i class="fa-solid fa-book-bookmark"></i> <span class="lang-en">Department:</span><span class="lang-rw">Ikiro:</span> <strong>Software Development</strong></span>
+        </div>
+
+        <!-- Portal Two-Column Layout -->
+        <div class="portal-grid">
+            
+            <!-- LEFT COLUMN: EXAMS & COURSES -->
+            <div>
+                <!-- ACTIVE EXAMS & QUIZ LINKS -->
+                <div class="panel-card">
+                    <h2><i class="fa-solid fa-file-pen" style="color:var(--accent-color);"></i> <span class="lang-en">Active Exams & Quiz Links</span><span class="lang-rw">Ama-Link y'Ibizamini Bihari</span></h2>
+                    <div id="examContainer">
+                        <!-- Urugero rw'ikizamini gihari kizafatwa kuri Firebase -->
+                        <div class="exam-box">
+                            <div class="exam-details">
+                                <h4 class="lang-en">JavaScript Basics - Quiz 2</h4>
+                                <h4 class="lang-rw">JavaScript Basics - Ikizami cya 2</h4>
+                                <p class="lang-en"><i class="fa-solid fa-clock"></i> Deadline: May 25, 2026 | Instructor: Teacher Claude</p>
+                                <p class="lang-rw"><i class="fa-solid fa-clock"></i> Ntarengwa: 25 Gicurasi 2026 | Umwarimu: Claude</p>
+                            </div>
+                            <!-- Hano niho link izanyura ijya kuri exam (urugero Google Forms cyangwa izindi) -->
+                            <a href="https://forms.google.com" target="_blank" class="quiz-btn">
+                                <span class="lang-en">Start Quiz</span><span class="lang-rw">Tangira Ikizamini</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STUDENT ACADEMIC COURSES -->
+                <div class="panel-card">
+                    <h2><i class="fa-solid fa-book" style="color:var(--secondary-color);"></i> <span class="lang-en">My Learning Modules</span><span class="lang-rw">Amasomo Nzigwa</span></h2>
+                    <div class="course-row">
+                        <div>
+                            <h4 style="font-size:15px;">Frontend Web Technologies</h4>
+                            <p style="font-size:12px; color:#64748b;">4 Credits | Core Module</p>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="course-row">
+                        <div>
+                            <h4 style="font-size:15px;">Database Systems & Firebase</h4>
+                            <p style="font-size:12px; color:#64748b;">3 Credits | Core Module</p>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: INTERNAL ANNOUNCEMENTS (Abanyeshuri gusa) -->
+            <div>
+                <div class="panel-card">
+                    <h2><i class="fa-solid fa-bell" style="color:var(--success-color);"></i> <span class="lang-en">Campus Notices</span><span class="lang-rw">Amatangazo y'Ikigo</span></h2>
+                    <div id="studentNoticeContainer">
+                        <!-- Amatangazo y'imbere mu kigo gusa azaza hano avuye kuri Firebase -->
+                        <div class="notice-item">
+                            <span class="notice-meta">Internal Notification</span>
+                            <h3 class="lang-en">Workshops Maintenance Notice</h3>
+                            <h3 class="lang-rw">Isukurwa n'Isubirwamo rya Workshop</h3>
+                            <p class="lang-en">The main computer lab will be closed this weekend for system upgrades.</p>
+                            <p class="lang-rw">Icyumba cy'imashini kizaba gifunze muri iyi wikendi kubera isubirwamo rya system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FIREBASE PORTAL SYNC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
+            authDomain: "astc-424a7.firebaseapp.com",
+            projectId: "astc-424a7",
+            storageBucket: "astc-424a7.firebasestorage.app",
+            messagingSenderId: "1019297443056",
+            appId: "1:1019297443056:web:8626d2276340f08a7a2635",
+            measurementId: "G-CKM32596L1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. DYNAMIC SYSTEM: KUREBA AMA-LINK Y'IBIZAMINI AVUYE KURI FIREBASE
+        // Niba admin ashyizeho exam link nshya muri database, ihita izira umunyeshuri hano ako kanya
+        onSnapshot(collection(db, "exams"), (snapshot) => {
+            const examContainer = document.getElementById('examContainer');
+            // Niba muri database harimo amakuru, tuyasimbuze ayo twigeze kwandika nka model
+            if(!snapshot.empty) {
+                examContainer.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    examContainer.innerHTML += `
+                        <div class="exam-box">
+                            <div class="exam-details">
+                                <h4>${data.title}</h4>
+                                <p><i class="fa-solid fa-clock"></i> Deadline: ${data.deadline} | Target: Students</p>
+                            </div>
+                            <a href="${data.link}" target="_blank" class="quiz-btn">
+                                <span class="lang-en">Start Exam</span><span class="lang-rw">Kora Ikizami</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            </a>
+                        </div>
+                    `;
+                });
+            }
+        });
+
+        // 2. KUREBA AMATANGAZO Y'ABANYESHURI GUSA (Student Notices via Firebase)
+        onSnapshot(collection(db, "student_notices"), (snapshot) => {
+            const noticeContainer = document.getElementById('studentNoticeContainer');
+            if(!snapshot.empty) {
+                noticeContainer.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    noticeContainer.innerHTML += `
+                        <div class="notice-item">
+                            <span class="notice-meta">Campus Alert</span>
+                            <h3>${data.title}</h3>
+                            <p>${data.message}</p>
+                        </div>
+                    `;
+                });
+            }
+        });
+    </script>
+
+    <!-- Language Toggle Switch Logic -->
+    <script>
+        let currentLang = "en";
+        function toggleLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            
+            if (currentLang === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+                currentLang = "rw";
+            } else {
+                enElements.forEach(el => el.style.display = 'inline-block');
+                rwElements.forEach(el => el.style.display = 'none');
+                currentLang = "en";
+            }
+        }
+    </script>
+</body>
+</html>
