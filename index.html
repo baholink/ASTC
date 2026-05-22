@@ -11,7 +11,8 @@
             --primary-color: #0f172a; /* Deep Tech Blue */
             --secondary-color: #2563eb; /* Modern Blue */
             --accent-color: #f59e0b; /* Premium Gold */
-            --success-color: #10b981; /* Green Tech */
+            --success-color: #10b981; /* Green for Blogs */
+            --danger-color: #ef4444;
             --text-dark: #334155;
             --text-light: #f8fafc;
             --bg-light: #f1f5f9;
@@ -23,7 +24,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -46,7 +46,8 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .top-bar-info { display: flex; gap: 15px; flex-wrap: wrap; }
+        .top-bar .info-side { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .top-bar .action-side { display: flex; align-items: center; gap: 15px; }
         .top-bar a { color: white; text-decoration: none; }
         .top-bar a:hover { color: var(--accent-color); }
 
@@ -62,10 +63,20 @@
         }
         .lang-btn:hover { background: #1d4ed8; }
 
+        .auth-status-badge {
+            background: #1e293b;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #334155;
+        }
+
         /* Navigation Header */
         header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
@@ -85,7 +96,7 @@
         }
         .logo span { color: var(--secondary-color); }
 
-        /* Navigation Links & Hamburger */
+        /* Responsive Nav Menu */
         .nav-container { display: flex; align-items: center; }
         nav ul {
             display: flex;
@@ -103,6 +114,7 @@
         }
         nav a:hover { color: var(--secondary-color); }
 
+        /* Hamburger Menu Icon */
         .menu-toggle {
             display: none;
             font-size: 24px;
@@ -123,6 +135,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            cursor: pointer;
         }
         .portal-btn:hover { background: var(--secondary-color); }
         
@@ -143,7 +156,11 @@
             padding: 12px 16px;
             display: block;
             font-size: 14px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--bg-light);
+            transition: 0.2s;
         }
+        .dropdown-content a:last-child { border-bottom: none; }
         .dropdown-content a:hover { background-color: var(--bg-light); color: var(--secondary-color); }
         .dropdown:hover .dropdown-content { display: block; }
 
@@ -169,11 +186,11 @@
             border-radius: 6px;
             transition: 0.3s;
             font-size: 16px;
-            display: inline-block;
+            cursor: pointer;
         }
-        .hero .btn-primary { background: var(--secondary-color); color: white; }
+        .hero .btn-primary { background: var(--secondary-color); color: white; border: none; }
         .hero .btn-primary:hover { background: #1d4ed8; }
-        .hero .btn-outline { border: 2px solid white; color: white; }
+        .hero .btn-outline { border: 2px solid white; color: white; background: transparent; }
         .hero .btn-outline:hover { background: white; color: var(--primary-color); }
 
         /* Dynamic Sections General UI */
@@ -206,17 +223,16 @@
             background: white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
             border-top: 4px solid var(--secondary-color);
             transition: 0.3s;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
         .card-date { color: var(--accent-color); font-weight: bold; font-size: 13px; display: block; margin-bottom: 10px; }
         .card h3 { font-size: 18px; color: var(--primary-color); margin-bottom: 12px; }
-        .card p { color: #475569; font-size: 15px; }
+        .card p { color: #475569; font-size: 15px; flex-grow: 1; }
 
         /* Media / Event Gallery Showcase Section */
         .gallery-grid {
@@ -228,7 +244,7 @@
             position: relative;
             border-radius: 8px;
             overflow: hidden;
-            height: 260px;
+            height: 240px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
@@ -236,12 +252,12 @@
         .gallery-overlay {
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
+            background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
             padding: 20px;
             color: white;
         }
-        .gallery-overlay h4 { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
-        .gallery-overlay p { font-size: 13px; color: #cbd5e1; }
+        .gallery-overlay h4 { font-size: 16px; font-weight: bold; }
+        .gallery-overlay p { font-size: 12px; color: #cbd5e1; }
 
         /* Footer Section */
         footer {
@@ -272,46 +288,95 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 38px; height: 38px;
+            width: 35px; height: 35px;
         }
         .social-icons a:hover { color: white; background: var(--secondary-color); }
-
         .footer-bottom { text-align: center; padding-top: 25px; border-top: 1px solid #1e293b; font-size: 14px; color: #64748b; }
 
+        /* Custom Modern Modal Alert for Access Control Denial */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-icon { font-size: 50px; color: var(--danger-color); margin-bottom: 15px; }
+        .modal-box h3 { font-size: 22px; color: var(--primary-color); margin-bottom: 10px; }
+        .modal-box p { color: #475569; margin-bottom: 25px; font-size: 15px; }
+        .modal-close-btn {
+            background: var(--primary-color); color: white; border: none;
+            padding: 10px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
+        }
+        .modal-close-btn:hover { background: var(--secondary-color); }
+
         /* Language visibility defaults */
-        .lang-rw { display: none !important; }
+        .lang-rw { display: none; }
 
         /* Responsive Breakpoints */
-        @media (max-width: 968px) {
+        @media (max-width: 991px) {
+            .hero h1 { font-size: 36px; }
+            header { padding: 15px 5%; }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar { justify-content: center; text-align: center; }
             .menu-toggle { display: block; }
             nav {
                 display: none;
                 position: absolute;
                 top: 100%; left: 0; right: 0;
                 background: white;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
                 padding: 20px;
                 border-top: 1px solid var(--border-color);
             }
             nav.active { display: block; }
-            nav ul { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .dropdown { width: 100%; }
-            .dropdown-content { position: relative; top: 5px; width: 100%; box-shadow: none; border: none; background: var(--bg-light); }
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 16px; }
-            section { padding: 50px 5%; }
+            nav ul { flex-direction: column; align-items: flex-start; width: 100%; gap: 15px; }
+            .dropdown, .portal-btn { width: 100%; }
+            .dropdown-content { position: relative; top: 5px; right: auto; width: 100%; box-shadow: none; border: 1px solid var(--bg-light); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Bar with Core Institutional Info -->
+    <!-- Access Control Custom Alert Modal -->
+    <div class="modal-overlay" id="accessModal">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <h3 class="lang-en">Access Denied</h3>
+            <h3 class="lang-rw">Ntaburenganzira Dufite</h3>
+            <p id="modalMessage" class="lang-en">You don't have permission to access this portal area.</p>
+            <p id="modalMessageRw" class="lang-rw">Ntaburenganzira ufite bwo kwinjira muri iyi Portal.</p>
+            <button class="modal-close-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Top Bar with Core Institutional Info & Auth Badges -->
     <div class="top-bar">
-        <div class="top-bar-info">
+        <div class="info-side">
             <span><i class="fa-solid fa-envelope"></i> contact@astc.ac.rw</span>
             <span><i class="fa-solid fa-phone"></i> +250 788 000 000</span>
         </div>
-        <div>
+        <div class="action-side">
+            <div class="auth-status-badge" id="authBadge">
+                <i class="fa-solid fa-circle-user"></i> <span id="authBadgeText">Checking Status...</span>
+            </div>
             <button class="lang-btn" onclick="toggleLanguage()">Kinyarwanda</button>
         </div>
     </div>
@@ -319,29 +384,27 @@
     <!-- Main Navigation Header System -->
     <header>
         <a href="#" class="logo">ASTC<span>.</span></a>
-        <div class="nav-container">
-            <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></div>
-            <nav id="navbar">
-                <ul>
-                    <li><a href="#" class="lang-en">Home</a><a href="#" class="lang-rw">Ahabanza</a></li>
-                    <li><a href="#announcements" class="lang-en">Announcements</a><a href="#announcements" class="lang-rw">Amatangazo</a></li>
-                    <li><a href="#events" class="lang-en">Events & Media</a><a href="#events" class="lang-rw">Ibirori</a></li>
-                    <li><a href="#blogs" class="lang-en">Insights</a><a href="#blogs" class="lang-rw">Amakuru</a></li>
-                    <!-- GATEWAY DROPDOWN TO PORTALS -->
-                    <li class="dropdown">
-                        <a href="#" class="portal-btn">
-                            <i class="fa-solid fa-lock"></i> <span class="lang-en">Portals Gateway</span><span class="lang-rw">Inzego z'Ikigo</span> <i class="fa-solid fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-content">
-                            <a href="portal.html"><i class="fa-solid fa-user-graduate"></i> Student Portal</a>
-                            <a href="teacher.html"><i class="fa-solid fa-chalkboard-user"></i> Teacher Portal</a>
-                            <a href="admin.html"><i class="fa-solid fa-user-gear"></i> Administration</a>
-                            <a href="chat.html"><i class="fa-solid fa-comments"></i> Campus Live Chat</a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <div class="menu-toggle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></div>
+        <nav id="mainNav">
+            <ul>
+                <li><a href="#" class="lang-en">Home</a><a href="#" class="lang-rw">Ahabanza</a></li>
+                <li><a href="#announcements" class="lang-en">Announcements</a><a href="#announcements" class="lang-rw">Amatangazo</a></li>
+                <li><a href="#events" class="lang-en">Events & Media</a><a href="#events" class="lang-rw">Ibirori</a></li>
+                <li><a href="#blogs" class="lang-en">Insights</a><a href="#blogs" class="lang-rw">Amakuru</a></li>
+                <!-- GATEWAY DROPDOWN TO PORTALS WITH SECURITY ROLE INTERCEPTORS -->
+                <li class="dropdown">
+                    <a class="portal-btn">
+                        <i class="fa-solid fa-lock"></i> <span class="lang-en">Portals Gateway</span><span class="lang-rw">Inzego z'Ikigo</span> <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a onclick="guardRoute('student', 'portal.html')"><i class="fa-solid fa-user-graduate"></i> Student Portal</a>
+                        <a onclick="guardRoute('teacher', 'teacher.html')"><i class="fa-solid fa-chalkboard-user"></i> Teacher Portal</a>
+                        <a onclick="guardRoute('admin', 'admin.html')"><i class="fa-solid fa-user-gear"></i> Administration</a>
+                        <a onclick="guardRoute('any', 'chat.html')"><i class="fa-solid fa-comments"></i> Campus Live Chat</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
     </header>
 
     <!-- Hero Showcase Section -->
@@ -351,8 +414,8 @@
         <p class="lang-en">Welcome to Acline Start Training Centre (ASTC). We deliver high-standard education, advanced technological pathways, and industrial excellence frameworks.</p>
         <p class="lang-rw">Murakaza neza kuri Acline Start Training Centre (ASTC). Dutanga uburezi bufite ireme, n'imyuga ishingiye ku nkingi z'ikoranabuhanga rigezweho.</p>
         <div class="btn-group">
-            <a href="portal.html" class="btn btn-primary lang-en">Student Portal</a>
-            <a href="portal.html" class="btn btn-primary lang-rw">Portal y'Abanyeshuri</a>
+            <button onclick="guardRoute('student', 'portal.html')" class="btn btn-primary lang-en">Student Portal</button>
+            <button onclick="guardRoute('student', 'portal.html')" class="btn btn-primary lang-rw">Portal y'Abanyeshuri</button>
             <a href="#announcements" class="btn btn-outline lang-en">View Notices</a>
             <a href="#announcements" class="btn btn-outline lang-rw">Reba Amatangazo</a>
         </div>
@@ -367,11 +430,11 @@
         
         <div class="grid-container" id="announcementContainer">
             <div class="card">
-                <span class="card-date">System Alert</span>
-                <h3 class="lang-en">Connecting to Campus Database...</h3>
-                <h3 class="lang-rw">Iri guhuza na Database y'Ikigo...</h3>
-                <p class="lang-en">Please wait while we sync active notices from administration panel.</p>
-                <p class="lang-rw">Tegereza gato amatangazo ari guhuzwa ako kanya avuye ku buyobozi.</p>
+                <span class="card-date">System Status</span>
+                <h3 class="lang-en">Connecting to Database...</h3>
+                <h3 class="lang-rw">Iri guhuza na Database...</h3>
+                <p class="lang-en">Syncing active notices from the administrative dashboard...</p>
+                <p class="lang-rw">Tegereza gato amatangazo ari guhuzwa n'ubuyobozi...</p>
             </div>
         </div>
     </section>
@@ -381,7 +444,7 @@
         <h2 class="section-title lang-en">Events & Campus Life</h2>
         <h2 class="section-title lang-rw">Ibirori n'Ubuzima bw'Ikigo</h2>
         <p class="section-subtitle lang-en">A visual insight into our high-profile graduation ceremonies, administrative leadership actions, and engineering workshops.</p>
-        <p class="section-subtitle lang-rw">Isura n'amashusho y'ibirori bya Graduation, inama z'abayobozi, n'ibikorwa by'abanyeshuri mu ma-workshops.</p>
+        <p class="section-subtitle lang-rw">Isura n'amashusho y'birori bya Graduation, inama z'abayobozi, n'ibikorwa by'abanyeshuri mu ma-workshops.</p>
         
         <div class="gallery-grid">
             <div class="gallery-item">
@@ -414,16 +477,14 @@
     <!-- DYNAMIC BLOGS / INSIGHTS SECTION (Connected to Firebase Firestore) -->
     <section id="blogs" class="announcements-bg">
         <h2 class="section-title lang-en">Latest Insights & Innovations</h2>
-        <h2 class="section-title lang-rw">Amakuru n'Inyandiko nshya</h2>
+        <h2 class="section-title lang-rw">Amakuru n'Inyandiko mshya</h2>
         <p class="section-subtitle lang-en">Read comprehensive articles posted by ASTC faculty regarding career growth and structural evolution.</p>
         <p class="section-subtitle lang-rw">Soma inyandiko zizewe zandikwa n'abarimu n'inzobere ba ASTC zivuga ku iterambere ry'akazi.</p>
 
         <div class="grid-container" id="blogContainer">
             <div class="card">
-                <h3 class="lang-en">Connecting to Media Hub...</h3>
-                <h3 class="lang-rw">Iri guhuza na Media Hub...</h3>
-                <p class="lang-en">Loading the latest insights and tech evolutionary reports from campus...</p>
-                <p class="lang-rw">Amakuru n'ubushakashatsi bwashyize hanze biracyashakishwa...</p>
+                <h3>Connecting to Media Hub...</h3>
+                <p>Loading the latest evolutionary insights from the campus network...</p>
             </div>
         </div>
     </section>
@@ -459,11 +520,13 @@
         </div>
     </footer>
 
-    <!-- FIREBASE INTEGRATION & CORE SYNC CORE ENGINE -->
+    <!-- FIREBASE INTEGRATION & SECURITY AUTH ENGINE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
             authDomain: "astc-424a7.firebaseapp.com",
@@ -476,8 +539,40 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        // 1. SYNCING OFFICIAL ANNOUNCEMENTS FROM FIREBASE
+        // Global States we share with UI global window
+        window.userDataObj = null;
+
+        // 1. MONITORING AUTH STATE AND FETCHING ROLES REAL-TIME
+        onAuthStateChanged(auth, async (user) => {
+            const badgeText = document.getElementById('authBadgeText');
+            if (user) {
+                try {
+                    // Reba role y'umuntu muri Users collection hifashishijwe UID ye
+                    const userDocRef = doc(db, "users", user.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+                    
+                    if (userDocSnap.exists()) {
+                        const profile = userDocSnap.data();
+                        window.userDataObj = { uid: user.uid, role: profile.role || 'student', email: user.email };
+                        badgeText.innerText = `${user.email.split('@')[0]} (${profile.role.toUpperCase()})`;
+                    } else {
+                        // Niba profile itabashije kuboneka ariko afite amakuru aza default nka Student
+                        window.userDataObj = { uid: user.uid, role: 'student', email: user.email };
+                        badgeText.innerText = `${user.email.split('@')[0]} (STUDENT)`;
+                    }
+                } catch (error) {
+                    console.error("Error fetching role:", error);
+                    badgeText.innerText = "Logged In";
+                }
+            } else {
+                window.userDataObj = null;
+                badgeText.innerHTML = `<a href="login.html" style="color:var(--accent-color); font-weight:bold;"><i class="fa-solid fa-right-to-bracket"></i> Login</a>`;
+            }
+        });
+
+        // 2. SYNCING OFFICIAL ANNOUNCEMENTS FROM FIREBASE
         const annQuery = query(collection(db, "announcements"), orderBy("timestamp", "desc"));
         onSnapshot(annQuery, (snapshot) => {
             const container = document.getElementById('announcementContainer');
@@ -487,23 +582,22 @@
                     const data = doc.data();
                     container.innerHTML += `
                         <div class="card">
-                            <div>
-                                <span class="card-date"><i class="fa-solid fa-calendar-days"></i> ${data.date || 'Notice'}</span>
-                                <h3>
-                                    <span class="lang-en">${data.title_en || ''}</span>
-                                    <span class="lang-rw">${data.title_rw || data.title_en || ''}</span>
-                                </h3>
-                                <p class="lang-en">${data.message_en || data.message || ''}</p>
-                                <p class="lang-rw">${data.message_rw || data.message || ''}</p>
-                            </div>
+                            <span class="card-date"><i class="fa-solid fa-calendar-days"></i> ${data.date || 'Notice'}</span>
+                            <h3>
+                                <span class="lang-en">${data.title_en || data.title}</span>
+                                <span class="lang-rw" style="display:none;">${data.title_rw || data.title}</span>
+                            </h3>
+                            <p>${data.message}</p>
                         </div>
                     `;
                 });
                 maintainLanguageView();
+            } else {
+                container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color:#64748b;">No announcements found.</p>`;
             }
         });
 
-        // 2. SYNCING REAL-TIME BLOGS FROM FIREBASE
+        // 3. SYNCING REAL-TIME BLOGS FROM FIREBASE
         const blogQuery = query(collection(db, "blogs"), orderBy("timestamp", "desc"));
         onSnapshot(blogQuery, (snapshot) => {
             const container = document.getElementById('blogContainer');
@@ -513,62 +607,94 @@
                     const data = doc.data();
                     container.innerHTML += `
                         <div class="card" style="border-top-color: var(--success-color);">
-                            <div>
-                                <span class="card-date" style="color:var(--success-color);"><i class="fa-solid fa-tags"></i> ${data.tag || 'Insight'}</span>
-                                <h3>
-                                    <span class="lang-en">${data.title_en || data.title || ''}</span>
-                                    <span class="lang-rw">${data.title_rw || data.title || ''}</span>
-                                </h3>
-                                <p class="lang-en">${data.summary_en || data.summary || ''}</p>
-                                <p class="lang-rw">${data.summary_rw || data.summary || ''}</p>
-                            </div>
+                            <span class="card-date" style="color:var(--success-color);"><i class="fa-solid fa-tags"></i> ${data.tag || 'Insight'}</span>
+                            <h3>${data.title}</h3>
+                            <p>${data.summary || data.content || ''}</p>
                         </div>
                     `;
                 });
                 maintainLanguageView();
+            } else {
+                container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color:#64748b;">No insights found.</p>`;
             }
         });
+
+        // Maintain language filter during updates
+        function maintainLanguageView() {
+            const currentLang = window.currentLanguageState || "en";
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            if (currentLang === "rw") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+            }
+        }
     </script>
 
-    <!-- Language Engine Switch & UI Logic -->
+    <!-- INTERCEPTOR ROUTER ENGINE & RESPONSIVE INTERACTION LOGIC -->
     <script>
         window.currentLanguageState = "en";
 
-        function toggleMenu() {
-            const nav = document.getElementById('navbar');
-            nav.classList.toggle('active');
-        }
+        // ROUTE GUARD FUNCTION: If user isn't logged in, or role doesn't match, block them!
+        function guardRoute(requiredRole, redirectUrl) {
+            const modal = document.getElementById('accessModal');
+            const msgEn = document.getElementById('modalMessage');
+            const msgRw = document.getElementById('modalMessageRw');
 
-        function toggleLanguage() {
-            const btn = document.querySelector('.lang-btn');
-            if (window.currentLanguageState === "en") {
-                window.currentLanguageState = "rw";
-                btn.innerText = "English";
-            } else {
-                window.currentLanguageState = "en";
-                btn.innerText = "Kinyarwanda";
+            // 1. Check if user is logged in
+            if (!window.userDataObj) {
+                msgEn.innerText = "Authentication required. Please log in first to access the campus portals.";
+                msgRw.innerText = "Ugomba kubanza kwinjira mu muryango (Login) kugira ngo ukoreshe izi mbuga.";
+                modal.style.display = 'flex';
+                return;
             }
-            maintainLanguageView();
+
+            // 2. If 'any', all authenticated users can enter (e.g. Chat)
+            if (requiredRole === 'any') {
+                window.location.href = redirectUrl;
+                return;
+            }
+
+            // 3. Match user role with specific route rule
+            if (window.userDataObj.role === requiredRole || window.userDataObj.role === 'admin') {
+                // Admin has bypass authority for all pages
+                window.location.href = redirectUrl;
+            } else {
+                // Deny access if roles conflict
+                msgEn.innerText = `Access Denied. Your current role (${window.userDataObj.role.toUpperCase()}) does not match the required clearance level for this page.`;
+                msgRw.innerText = `Ntaburenganzira ufite. Uruhare rwawe (${window.userDataObj.role.toUpperCase()}) ntirukwemerera kwinjira aha ngaha.`;
+                modal.style.display = 'flex';
+            }
         }
 
-        function maintainLanguageView() {
-            const currentLang = window.currentLanguageState;
+        function closeModal() {
+            document.getElementById('accessModal').style.display = 'none';
+        }
+
+        // Toggle Language Switcher
+        function toggleLanguage() {
             const enElements = document.querySelectorAll('.lang-en');
             const rwElements = document.querySelectorAll('.lang-rw');
+            const btn = document.querySelector('.lang-btn');
 
-            if (currentLang === "rw") {
-                enElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
-                rwElements.forEach(el => el.style.setProperty('display', 'inline-block', 'important'));
+            if (window.currentLanguageState === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+                btn.innerText = "English";
+                window.currentLanguageState = "rw";
             } else {
-                enElements.forEach(el => el.style.setProperty('display', 'inline-block', 'important'));
-                rwElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
+                enElements.forEach(el => el.style.display = 'inline-block');
+                rwElements.forEach(el => el.style.display = 'none');
+                btn.innerText = "Kinyarwanda";
+                window.currentLanguageState = "en";
             }
         }
 
-        // Initialize view on load
-        document.addEventListener("DOMContentLoaded", () => {
-            maintainLanguageView();
-        });
+        // Mobile Menu Toggle Responsive Function
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
     </script>
 </body>
 </html>
