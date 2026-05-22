@@ -4,206 +4,441 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acline Start Training Centre (ASTC)</title>
-    <!-- Gukoresha Tailwind CSS ku bw'isuku igezweho (Premium Look) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Font isobanutse neza -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        :root {
+            --primary-color: #0f172a; /* Dark Navy for modern corporate look */
+            --secondary-color: #0284c7; /* Professional Sky Blue */
+            --accent-color: #f59e0b; /* Amber for events/highlights */
+            --text-light: #f8fafc;
+            --text-dark: #1e293b;
+            --bg-light: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Top Bar for Language & Social Media */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .social-icons a {
+            color: var(--text-light);
+            margin-right: 15px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .social-icons a:hover { color: var(--secondary-color); }
+
+        .lang-switcher button {
+            background: transparent;
+            border: 1px solid var(--text-light);
+            color: var(--text-light);
+            padding: 3px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .lang-switcher button:hover { background: var(--secondary-color); }
+
+        /* Navigation Header */
+        header {
+            background: #ffffff;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: 800;
+        }
+        .logo span { color: var(--secondary-color); }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li { margin-left: 20px; }
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        nav ul li a:hover { color: var(--secondary-color); }
+
+        /* Portals Dropdown Button 스타일 */
+        .portal-btn {
+            background-color: var(--secondary-color);
+            color: white !important;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .portal-btn:hover { background-color: var(--primary-color); }
+
+        /* Hero Section (Modern & Clean) */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            padding: 0 20px;
+        }
+
+        .hero h2 { font-size: 42px; margin-bottom: 15px; font-weight: 700; }
+        .hero p { font-size: 18px; max-width: 600px; margin-bottom: 25px; }
+        .hero .btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .hero .btn:hover { background: var(--accent-color); }
+
+        /* Main Layout Grid */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Dashboard/Portal Entry Preview */
+        .portal-showcase {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .portal-card {
+            background: var(--bg-light);
+            padding: 20px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-top: 4px solid var(--secondary-color);
+        }
+        .portal-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .portal-card i { font-size: 30px; color: var(--primary-color); margin-bottom: 10px; }
+
+        /* Announcements & Blogs */
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 10px;
+            color: var(--primary-color);
+        }
+
+        .blog-post {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .blog-post img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; }
+
+        /* Sidebar: Announcements & Chat */
+        aside {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .announcement-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-right: 4px solid var(--accent-color);
+        }
+        .announcement-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .announcement-item:last-child { border-bottom: none; }
+        .announcement-item small { color: var(--secondary-color); font-weight: bold; }
+
+        /* Live Chat / Uruganiriro Widget Box */
+        .chat-widget {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .chat-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-body {
+            height: 200px;
+            padding: 15px;
+            background: #f8fafc;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        .chat-input-area {
+            display: flex;
+            border-top: 1px solid #e2e8f0;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            outline: none;
+        }
+        .chat-input-area button {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+        /* Footer / Adrese */
+        footer {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 50px 5% 20px 5%;
+            margin-top: 50px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #334155;
+        }
+        .footer-section h3 { margin-bottom: 20px; color: var(--secondary-color); }
+        .footer-section p, .footer-section li { font-size: 14px; color: #cbd5e1; margin-bottom: 10px; list-style: none;}
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            nav ul { flex-direction: column; align-items: center; gap: 10px; }
+            .container { grid-template-columns: 1fr; }
+            .portal-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body>
 
-    <!-- NAVBAR (Agace k'Umutwe n'Ibyerekezo) -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo / Izina ry'Ishuri -->
-            <div class="flex items-center space-x-3">
-                <div class="h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">ASTC</div>
-                <span class="font-bold text-xl tracking-tight text-gray-900">ASTC</span>
-            </div>
-
-            <!-- Menu Inyuramo -->
-            <nav class="hidden md:flex space-x-8 text-sm font-semibold">
-                <a href="#home" id="nav-home" class="text-blue-600">Home</a>
-                <a href="#about" id="nav-about" class="text-gray-500 hover:text-gray-900 transition">About</a>
-                <a href="#events" id="nav-events" class="text-gray-500 hover:text-gray-900 transition">Events</a>
-                <a href="#contact" id="nav-contact" class="text-gray-500 hover:text-gray-900 transition">Contact</a>
-            </nav>
-
-            <!-- Portals & Indimi -->
-            <div class="flex items-center space-x-4">
-                <!-- Guhindura Ururimi -->
-                <select id="lang-switcher" onchange="switchLanguage(this.value)" class="bg-gray-100 border border-gray-300 text-sm rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
-                    <option value="en">English</option>
-                    <option value="kin">Kinyarwanda</option>
-                </select>
-
-                <!-- Login Button ikura kuri Portal -->
-                <a href="login.html" id="btn-portal" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-sm">
-                    Portal Login
-                </a>
-            </div>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="social-icons">
+            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
         </div>
+        <div class="lang-switcher">
+            <button onclick="switchLanguage('en')">English</button>
+            <button onclick="switchLanguage('rw')">Kinyarwanda</button>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <div class="logo">
+            <h1>ASTC<span>.</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" data-en="Home" data-rw="Ahabanza">Home</a></li>
+                <li><a href="#" data-en="About Us" data-rw="Turi Kimwe">About Us</a></li>
+                <li><a href="#" data-en="Programs" data-rw="Imyuga">Programs</a></li>
+                <li><a href="#" data-en="Blogs" data-rw="Inyandiko">Blogs</a></li>
+                <li><a href="#" data-en="Contact" data-rw="Tuvugishe">Contact</a></li>
+                <li><a href="#portals" class="portal-btn" data-en="ASTC Portal" data-rw="Urubuga rwacu">ASTC Portal</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- HERO SECTION (Ahabanza h'Icyubahiro) -->
-    <section id="home" class="relative bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <span id="hero-badge" class="inline-block bg-blue-500/20 text-blue-300 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full">Center of Excellence</span>
-                <h1 id="hero-title" class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-                    Shaping the Leaders of Tomorrow
-                </h1>
-                <p id="hero-desc" class="text-lg text-indigo-100 font-light max-w-xl">
-                    Welcome to Acline Start Training Centre. We provide dynamic, world-class education designed to empower and professionalize our students for a modern global economy.
-                </p>
-                <div class="pt-4">
-                    <a href="login.html?register=true" id="hero-btn" class="bg-white text-blue-900 font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-indigo-50 transition inline-block">
-                        Apply Now
-                    </a>
-                </div>
-            </div>
-            <!-- Ifoto y'ishuri, abayobozi cyangwa Graduation -->
-            <div class="relative">
-                <div class="aspect-video bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border-4 border-white/10 flex items-center justify-center">
-                    <!-- Ngaha tuzahashyira ifoto ya Graduation cyangwa iy'Abayobozi -->
-                    <span class="text-gray-400 text-sm">[ Graduation or Campus Main Photo ]</span>
-                </div>
-            </div>
-        </div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h2 id="hero-title" data-en="Shaping the Future through Excellence" data-rw="Twubaka Ejo Hazaza binyuze mu Bumenyi">Shaping the Future through Excellence</h2>
+        <p id="hero-desc" data-en="Welcome to Acline Start Training Centre. We offer premium professional education designed to drive career success and corporate innovation." data-rw="Murakaza neza kuri Acline Start Training Centre. Dutanga uburezi bwo ku rwego rwo hejuru bwagenewe kugufasha gutera imbere mu mwuga waho.">Welcome to Acline Start Training Centre. We offer premium professional education designed to drive career success and corporate innovation.</p>
+        <a href="#" class="btn" id="hero-btn" data-en="Explore Programs" data-rw="Reba Ibyo Twiga">Explore Programs</a>
     </section>
 
-    <!-- ABOUT & WELCOME (Ijambo ry'Abayobozi n'Intego) -->
-    <section id="about" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid md:grid-cols-3 gap-12 items-start">
-            <!-- Ifoto y'Umuyobozi -->
-            <div class="space-y-4">
-                <div class="aspect-[3/4] bg-gray-200 rounded-2xl overflow-hidden shadow-md flex items-center justify-center">
-                    <span class="text-gray-400 text-sm">[ Director's Photo ]</span>
-                </div>
-                <h3 class="font-bold text-lg text-gray-900">Dr. / Mr. Administrator</h3>
-                <p id="dir-title" class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Director of ASTC</p>
-            </div>
-            <!-- Ijambo ry'Ikaze -->
-            <div class="md:col-span-2 space-y-6">
-                <h2 id="welcome-title" class="text-3xl font-bold tracking-tight text-gray-900">Welcome from the Leadership</h2>
-                <p id="welcome-desc" class="text-gray-600 leading-relaxed font-light text-lg">
-                    At ASTC, our commitment goes beyond general training; we aim to build innovators, creators, and highly professional individuals. Through modern infrastructure and dedicated leadership, we make sure each student reaches their fullest potential.
-                </p>
-                <!-- Ibyerekezo -->
-                <div class="grid sm:grid-cols-2 gap-6 pt-6 border-t border-gray-200">
-                    <div>
-                        <h4 id="vision-title" class="font-bold text-gray-900 mb-2">Our Vision</h4>
-                        <p id="vision-desc" class="text-sm text-gray-600">To be a premier continental center of academic and practical training excellence.</p>
+    <!-- MAIN BODY CONTAINER -->
+    <div class="container">
+        
+        <!-- LEFT CONTENT: Portals & Blogs -->
+        <main>
+            <!-- Portals Section -->
+            <section class="portal-showcase" id="portals">
+                <h3 class="section-title" data-en="ASTC Integrated Management Portals" data-rw="Inzego n'Imbuga z'Abakoresha (Portals)">ASTC Integrated Management Portals</h3>
+                <p style="font-size: 14px; color: #64748b;" data-en="Access to secure Firebase-powered dashboards for personalized management." data-rw="Injira mu mbuga zacu zirinzwe neza zikoresha Firebase ku banyeshuri, abarimu, n'abayobozi.">Access to secure Firebase-powered dashboards for personalized management.</p>
+                
+                <div class="portal-grid">
+                    <div class="portal-card" onclick="alert('Redirecting to Firebase Student Portal Login...')">
+                        <i class="fas fa-user-graduate"></i>
+                        <h4 data-en="Student Portal" data-rw="Umunyeshuri">Student Portal</h4>
+                        <p style="font-size: 12px; color:#64748b; margin-top:5px;" data-en="Grades, Attendance, Fees" data-rw="Amanota, Kwitaba, Amafaranga">Grades, Attendance, Fees</p>
                     </div>
-                    <div>
-                        <h4 id="mission-title" class="font-bold text-gray-900 mb-2">Our Mission</h4>
-                        <p id="mission-desc" class="text-sm text-gray-600">To empower students with verified technical, ethical, and entrepreneurial skills.</p>
+                    <div class="portal-card" onclick="alert('Redirecting to Firebase Teacher Portal Login...')">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h4 data-en="Teacher Portal" data-rw="Umwarimu">Teacher Portal</h4>
+                        <p style="font-size: 12px; color:#64748b; margin-top:5px;" data-en="Manage Lessons & Marks" data-rw="Gucunga Amasomo n'Amanota">Manage Lessons & Marks</p>
+                    </div>
+                    <div class="portal-card" onclick="alert('Redirecting to Firebase Admin Portal Login...')">
+                        <i class="fas fa-user-shield"></i>
+                        <h4 data-en="Administration" data-rw="Abayobozi">Administration</h4>
+                        <p style="font-size: 12px; color:#64748b; margin-top:5px;" data-en="School Analytics & System" data-rw="Gucunga Ikigo n'Urubuga">School Analytics & System</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- PORTAL ROUTING / PORTAL PATHS (Uruhare rwa Firebase runyuramo) -->
-    <section class="bg-gray-100 py-16 px-4">
-        <div class="max-w-7xl mx-auto text-center space-y-4 mb-12">
-            <h2 id="portal-title" class="text-3xl font-bold tracking-tight">Access Our Digital Campus</h2>
-            <p id="portal-subtitle" class="text-gray-500">Log in to your respective workspace to manage schedules, view grades, and communicate.</p>
-        </div>
-        <div class="max-w-5xl mx-auto grid sm:grid-cols-3 gap-6">
-            <!-- Student Portal -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition text-center space-y-4">
-                <div class="h-12 w-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center mx-auto text-xl font-bold">S</div>
-                <h3 id="p-student-title" class="font-bold text-lg">Student Portal</h3>
-                <p id="p-student-desc" class="text-xs text-gray-500">Check grades, attendances, and digital learning content.</p>
-                <a href="login.html?role=student" class="inline-block text-sm text-blue-600 font-semibold hover:underline">Access Portal &rarr;</a>
-            </div>
-            <!-- Teacher Portal -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition text-center space-y-4">
-                <div class="h-12 w-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mx-auto text-xl font-bold">T</div>
-                <h3 id="p-teacher-title" class="font-bold text-lg">Teacher Portal</h3>
-                <p id="p-teacher-desc" class="text-xs text-gray-500">Manage classroom attendance, submit student scores, and track lessons.</p>
-                <a href="login.html?role=teacher" class="inline-block text-sm text-blue-600 font-semibold hover:underline">Access Portal &rarr;</a>
-            </div>
-            <!-- Admin Portal -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition text-center space-y-4">
-                <div class="h-12 w-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center mx-auto text-xl font-bold">A</div>
-                <h3 id="p-admin-title" class="font-bold text-lg">Administration</h3>
-                <p id="p-admin-desc" class="text-xs text-gray-500">Full system oversight, finance management, and staff controls.</p>
-                <a href="login.html?role=admin" class="inline-block text-sm text-blue-600 font-semibold hover:underline">Access Dashboard &rarr;</a>
-            </div>
-        </div>
-    </section>
+            <!-- Blogs Section -->
+            <section>
+                <h3 class="section-title" data-en="Latest Insights & Articles (Blogs)" data-rw="Inyandiko n'Ubusesenguzi (Blogs)">Latest Insights & Articles (Blogs)</h3>
+                
+                <div class="blog-post">
+                    <!-- Default placeholder img, hano muzahashyira ifoto ya Graduation cyangwa iyindi -->
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Graduation Event">
+                    <h4 data-en="Highlights from the 2026 ASTC Annual Graduation Ceremony" data-rw="Ibintu by'Ingenzi mu Birori bya Graduation bya ASTC 2026">Highlights from the 2026 ASTC Annual Graduation Ceremony</h4>
+                    <p style="font-size: 14px; color: #475569; margin: 10px 0;" data-en="Celebration of excellence as our latest cohort transitions into industry leaders. Read about the projects exhibited and testimonies from outstanding alumni." data-rw="Ibyishimo ku banyeshuri bacu barangije binjira ku isoko ry'umurimo nk'abayobozi. Soma ku mishinga berekanye n'ubuhamya bw'abarangije neza.">Celebration of excellence as our latest cohort transitions into industry leaders. Read about the projects exhibited and testimonies from outstanding alumni.</p>
+                    <a href="#" style="color: var(--secondary-color); font-weight: bold; text-decoration: none; font-size: 14px;" data-en="Read Full Story →" data-rw="Soma Byose →">Read Full Story →</a>
+                </div>
+            </section>
+        </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-gray-900 text-gray-400 py-12 text-sm text-center">
-        <p>&copy; 2026 Acline Start Training Centre (ASTC). All Rights Reserved.</p>
+        <!-- RIGHT CONTENT: Announcements & Chat Widget -->
+        <aside>
+            <!-- Announcements/Amatangazo Box -->
+            <div class="announcement-box">
+                <h3 class="section-title" style="font-size: 18px;" data-en="Official Announcements" data-rw="Amatangazo Yemewe">Official Announcements</h3>
+                <div class="announcement-item">
+                    <small data-en="May 20, 2026" data-rw="20 Gicurasi 2026">May 20, 2026</small>
+                    <p style="font-size: 14px; font-weight: 600;" data-en="New intake registrations for next term are now open via the online portal." data-rw="Kwiyandikisha ku banyeshuri bashya b'igihe gitaha birafunguye ubu."></p>
+                </div>
+                <div class="announcement-item">
+                    <small data-en="May 15, 2026" data-rw="15 Gicurasi 2026">May 15, 2026</small>
+                    <p style="font-size: 14px; font-weight: 600;" data-en="Mid-term corporate stakeholders meeting scheduled for next Friday." data-rw="Inama y'abafatanyabikorwa b'ikigo iteganyijwe kuwa gatanu utaha."></p>
+                </div>
+            </div>
+
+            <!-- Live Chat Widget / Uruganiriro -->
+            <div class="chat-widget">
+                <div class="chat-header">
+                    <i class="fas fa-comments"></i>
+                    <span data-en="ASTC Live Chat / Room" data-rw="Uruganiriro rwa ASTC">ASTC Live Chat / Room</span>
+                </div>
+                <div class="chat-body" id="chatBox">
+                    <p style="color: #64748b; text-align: center; font-size: 12px; margin-top: 50px;" data-en="Connecting to Firebase database..." data-rw="Iri guhuza na Firebase...">Connecting to Firebase database...</p>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Type a message / Andika ubutumwa..." disabled>
+                    <button id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FOOTER / ADRESE -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>ASTC</h3>
+                <p data-en="Acline Start Training Centre is committed to providing elite executive and professional education that transforms careers and corporate standards." data-rw="Acline Start Training Centre ikorera mu cyerekezo cyo gutanga uburezi bwo ku rwego rwo hejuru buhindura imyuga n'ubuzima bwa kinyamwuga.">Acline Start Training Centre is committed to providing elite executive and professional education that transforms careers and corporate standards.</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-en="Our Address" data-rw="Adrese y'Ikigo">Our Address</h3>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--secondary-color); margin-right: 10px;"></i> Kigali, Rwanda</p>
+                <p><i class="fas fa-phone" style="color: var(--secondary-color); margin-right: 10px;"></i> +250 788 XX XX XX</p>
+                <p><i class="fas fa-envelope" style="color: var(--secondary-color); margin-right: 10px;"></i> info@aclinestart.edu.rw</p>
+            </div>
+            <div class="footer-section">
+                <h3 data-en="Quick Links" data-rw="Imiyoboro">Quick Links</h3>
+                <ul>
+                    <li><a href="#" style="color: #cbd5e1; text-decoration: none;" data-en="Firebase Portals" data-rw="Imbuga za Firebase">Firebase Portals</a></li>
+                    <li><a href="#" style="color: #cbd5e1; text-decoration: none;" data-en="Careers" data-rw="Imyanya y'Akazi">Careers</a></li>
+                    <li><a href="#" style="color: #cbd5e1; text-decoration: none;" data-en="Privacy Policy" data-rw="Ibijanye n'Ibanga">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Acline Start Training Centre (ASTC). All Rights Reserved.</p>
+        </div>
     </footer>
 
-    <!-- JAVASCRIPT FOR LANGUAGE SWITCHING -->
+    <!-- LANGUAGE SWITCHER SCRIPT -->
     <script>
-        const translations = {
-            en: {
-                home: "Home", about: "About", events: "Events", contact: "Contact", portal: "Portal Login",
-                badge: "Center of Excellence",
-                title: "Shaping the Leaders of Tomorrow",
-                desc: "Welcome to Acline Start Training Centre. We provide dynamic, world-class education designed to empower and professionalize our students for a modern global economy.",
-                btn: "Apply Now", dirtitle: "Director of ASTC",
-                wtitle: "Welcome from the Leadership",
-                wdesc: "At ASTC, our commitment goes beyond general training; we aim to build innovators, creators, and highly professional individuals. Through modern infrastructure and dedicated leadership, we make sure each student reaches their fullest potential.",
-                vtitle: "Our Vision", vdesc: "To be a premier continental center of academic and practical training excellence.",
-                mtitle: "Our Mission", mdesc: "To empower students with verified technical, ethical, and entrepreneurial skills.",
-                p_title: "Access Our Digital Campus", p_sub: "Log in to your respective workspace to manage schedules, view grades, and communicate.",
-                ps_t: "Student Portal", ps_d: "Check grades, attendances, and digital learning content.",
-                pt_t: "Teacher Portal", pt_d: "Manage classroom attendance, submit student scores, and track lessons.",
-                pa_t: "Administration", pa_d: "Full system oversight, finance management, and staff controls."
-            },
-            kin: {
-                home: "Ahabanza", about: "Ibyerekeye", events: "Ibirori", contact: "Tuvugishe", portal: "Injira muri Portal",
-                badge: "Ikigo cy'Indashyikirwa",
-                title: "Kurema Abayobozi b'Ejo Hazaza",
-                desc: "Ikaze kuri Acline Start Training Centre. Dutanga uburezi burambye kandi buri ku rwego rw'isi bwagenewe guha ubushobozi n'ubunyamwuga abanyeshuri bacu kugira ngo bahangane ku isoko ry'umurimo.",
-                btn: "Iyandikishe Ngaha", dirtitle: "Umuyobozi Mukuru wa ASTC",
-                wtitle: "Ikaze baturutse mu Buyobozi",
-                wdesc: "Muri ASTC, twiyemeje kurenga ukwigisha busanzwe; intego yacu ni ukwera abahanga, abahanzantekerezo, n'abanyamwuga bakomeye. Binyuze mu bikorwaremezo bigezweho n'ubuyobozi bwiza, twemeza ko buri munyeshuri agera ku ntego ze.",
-                vtitle: "Icyerekezo", vdesc: "Kuba ikigo cy'indashyikirwa ku mugabane mu bijyanye n'uburezi n'imyitwarire myiza.",
-                mtitle: "Intego", mdesc: "Guha abanyeshuri ubumenyi bw'imyuga, indangagaciro, n'ubushobozi bwo kwihangira imirimo.",
-                p_title: "Injira mu Kigo cyacu cy'Ikoranabuhanga", p_sub: "Injira mu gice cyakugenewe kugira ngo ubashe kureba gahunda, amanota, ndetse no gushyikirana.",
-                ps_t: "Portal y'Umunyeshuri", ps_d: "Reba amanota, imyitwarire, ndetse n'integanyanyigisho zose.",
-                pt_t: "Portal y'Umwarimu", pt_d: "Genzura abari mu kigo, shyiramo amanota y'abanyeshuri, kandi ukurikirane amasomo.",
-                pa_t: "Ubuyobozi Bukuru", pa_d: "Igenzurwa ryose rya sisitemu, imari, ndetse n'abakozi."
-            }
-        };
-
         function switchLanguage(lang) {
-            const t = translations[lang];
-            document.getElementById('nav-home').innerText = t.home;
-            document.getElementById('nav-about').innerText = t.about;
-            document.getElementById('nav-events').innerText = t.events;
-            document.getElementById('nav-contact').innerText = t.contact;
-            document.getElementById('btn-portal').innerText = t.portal;
-            document.getElementById('hero-badge').innerText = t.badge;
-            document.getElementById('hero-title').innerText = t.title;
-            document.getElementById('hero-desc').innerText = t.desc;
-            document.getElementById('hero-btn').innerText = t.btn;
-            document.getElementById('dir-title').innerText = t.dirtitle;
-            document.getElementById('welcome-title').innerText = t.wtitle;
-            document.getElementById('welcome-desc').innerText = t.wdesc;
-            document.getElementById('vision-title').innerText = t.vtitle;
-            document.getElementById('vision-desc').innerText = t.vdesc;
-            document.getElementById('mission-title').innerText = t.mtitle;
-            document.getElementById('mission-desc').innerText = t.mdesc;
-            document.getElementById('portal-title').innerText = t.p_title;
-            document.getElementById('portal-subtitle').innerText = t.p_sub;
-            document.getElementById('p-student-title').innerText = t.ps_t;
-            document.getElementById('p-student-desc').innerText = t.ps_d;
-            document.getElementById('p-teacher-title').innerText = t.pt_t;
-            document.getElementById('p-teacher-desc').innerText = t.pt_d;
-            document.getElementById('p-admin-title').innerText = t.pa_t;
-            document.getElementById('p-admin-desc').innerText = t.pa_d;
+            const elements = document.querySelectorAll('[data-en]');
+            elements.forEach(el => {
+                if (lang === 'rw') {
+                    el.textContent = el.getAttribute('data-rw') || el.textContent;
+                    if(el.tagName === 'INPUT') el.placeholder = "Andika ubutumwa hano...";
+                } else {
+                    el.textContent = el.getAttribute('data-en') || el.textContent;
+                    if(el.tagName === 'INPUT') el.placeholder = "Type a message...";
+                }
+            });
         }
+        
+        // Default text update on runtime to support dual script correctly
+        switchLanguage('en');
     </script>
 </body>
 </html>
