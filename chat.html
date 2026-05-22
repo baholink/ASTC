@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTC - Chat Room</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #2563eb;
+            --bg-light: #f1f5f9;
+            --chat-bg: #e2e8f0;
+            --text-dark: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            display: flex;
+            height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* Side Bar */
+        .chat-sidebar {
+            width: 300px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .sidebar-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+
+        .room-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .room-item {
+            padding: 12px;
+            background: #1e293b;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .room-item:hover, .room-item.active {
+            background: var(--secondary-color);
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--chat-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Message Bubbles */
+        .message {
+            max-width: 60%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
+            background: var(--secondary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.received {
+            background: white;
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .message-meta {
+            font-size: 11px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .message-time {
+            font-size: 10px;
+            display: block;
+            text-align: right;
+            margin-top: 5px;
+            opacity: 0.7;
+        }
+
+        /* Input Form */
+        .chat-input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .chat-input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .send-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-color);
+        }
+
+        /* Role Badge */
+        .badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.2);
+            margin-left: 5px;
+        }
+        .message.received .badge {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lang-rw { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar / Ibyiciro by'uruganiriro -->
+    <div class="chat-sidebar">
+        <div class="sidebar-header">
+            <h2>ASTC Hub</h2>
+            <p style="font-size: 13px; opacity:0.7;" class="lang-en">Connected to Campus Network</p>
+            <p style="font-size: 13px; opacity:0.7;" class="lang-rw">Uhuje na Network y'Ikigo</p>
+        </div>
+        <ul class="room-list">
+            <li class="room-item active">
+                <i class="fa-solid fa-comments"></i>
+                <div>
+                    <h4 class="lang-en">General Q&A</h4>
+                    <h4 class="lang-rw">Ibibazo Rusange</h4>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Chat Workspace -->
+    <div class="chat-area">
+        <div class="chat-header">
+            <div>
+                <h3 class="lang-en">General Support Channel</h3>
+                <h3 class="lang-rw">Umuvugizi Rusange</h3>
+                <span style="font-size: 13px; color: #10b981;"><i class="fa-solid fa-circle"></i> Live Connection</span>
+            </div>
+            <button onclick="toggleLanguage()" style="background:#edf2f7; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">Switch Language</button>
+        </div>
+
+        <!-- Messages Body -->
+        <div class="messages-container" id="messagesContainer">
+            <!-- Ebyitegererezo by'ubutumwa (Bizasimburwa na Firestore data) -->
+            <div class="message received">
+                <div class="message-meta">Teacher. Claude <span class="badge">Staff</span></div>
+                <p class="lang-en">Welcome to the ASTC Hub! Students can ask questions here, and the administration or instructors will reply.</p>
+                <p class="lang-rw">Murakaza neza kuri ASTC Hub! Abanyeshuri mushobora kubaza ibibazo hano, abarimu cyangwa ubuyobozi bakabasubiza.</p>
+                <span class="message-time">11:30 AM</span>
+            </div>
+        </div>
+
+        <!-- Message Sender Form -->
+        <div class="chat-input-area">
+            <form class="chat-form" id="chatForm">
+                <input type="text" id="messageInput" class="chat-input" placeholder="Type your question or response here..." required>
+                <button type="submit" class="send-btn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FIREBASE CHAT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase config yashyizweho nawe
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
+            authDomain: "astc-424a7.firebaseapp.com",
+            projectId: "astc-424a7",
+            storageBucket: "astc-424a7.firebasestorage.app",
+            messagingSenderId: "1019297443056",
+            appId: "1:1019297443056:web:8626d2276340f08a7a2635",
+            measurementId: "G-CKM32596L1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+        const messagesContainer = document.getElementById('messagesContainer');
+
+        // Urugero rw'umuntu winjiye (Ibi bizasimbuzwa Firebase Auth ku buryo bwiza)
+        const currentUser = {
+            name: "Student Guest", 
+            role: "Student",
+            id: "guest_123"
+        };
+
+        // 1. Kohereza Ubutumwa muri Firestore
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = messageInput.value.trim();
+            if (!text) return;
+
+            try {
+                await addDoc(collection(db, "chats"), {
+                    senderName: currentUser.name,
+                    senderRole: currentUser.role,
+                    senderId: currentUser.id,
+                    message: text,
+                    timestamp: serverTimestamp()
+                });
+                messageInput.value = ""; // Guhanagura mu gasanduku
+            } catch (error) {
+                console.error("Error sending message: ", error);
+            }
+        });
+
+        // 2. Kureba no Kwakira ubutumwa mu buryo bwa ako kanya (Real-time updates)
+        const q = query(collection(db, "chats"), orderBy("timestamp", "asc"));
+        onSnapshot(q, (snapshot) => {
+            // Niba hari amakuru mashya, hanagura ebyitegererezo ushyiremo aya Firestore
+            messagesContainer.innerHTML = "";
+            
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const isSentByMe = data.senderId === currentUser.id;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isSentByMe ? 'sent' : 'received'}`;
+
+                // Guhindura isaha ifatika
+                const timeString = data.timestamp ? new Date(data.timestamp.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "Just now";
+
+                messageDiv.innerHTML = `
+                    <div class="message-meta">${data.senderName} <span class="badge">${data.senderRole}</span></div>
+                    <p>${data.message}</p>
+                    <span class="message-time">${timeString}</span>
+                `;
+                messagesContainer.appendChild(messageDiv);
+            });
+
+            // Kumanura umwanya w'ubutumwa hasi ngo uhite ubona ubushya (Scroll to bottom)
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    </script>
+
+    <!-- Language Switcher Script -->
+    <script>
+        let currentLang = "en";
+        function toggleLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            
+            if (currentLang === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'block');
+                document.getElementById('messageInput').placeholder = "Andika ikibazo cyangwa igisubizo cyawe hano...";
+                currentLang = "rw";
+            } else {
+                enElements.forEach(el => el.style.display = 'block');
+                rwElements.forEach(el => el.style.display = 'none');
+                document.getElementById('messageInput').placeholder = "Type your question or response here...";
+                currentLang = "en";
+            }
+        }
+    </script>
+</body>
+</html>
