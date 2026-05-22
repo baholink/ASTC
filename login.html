@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASTC - Authentication Gateway</title>
+    <title>ASTC - Portal Authentication System</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,129 +11,263 @@
             --primary-color: #0f172a;
             --secondary-color: #2563eb;
             --accent-color: #f59e0b;
-            --bg-light: #f1f5f9;
+            --bg-light: #f8fafc;
             --text-dark: #1e293b;
             --border-color: #cbd5e1;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: var(--bg-light); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        .auth-container { background: white; width: 100%; max-width: 480px; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
-        .brand { text-align: center; font-size: 28px; font-weight: 800; color: var(--primary-color); margin-bottom: 25px; }
-        .brand span { color: var(--secondary-color); }
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-        /* Tabs Switcher */
-        .auth-tabs { display: flex; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; }
-        .tab-btn { flex: 1; padding: 12px; background: none; border: none; font-size: 16px; font-weight: 600; color: #64748b; cursor: pointer; text-align: center; }
-        .tab-btn.active { color: var(--secondary-color); border-bottom: 2px solid var(--secondary-color); margin-bottom: -2px; }
+        /* Top Bar Actions inside login page */
+        .top-actions {
+            position: absolute;
+            top: 20px; left: 5%; right: 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        .form-panel { display: none; }
-        .form-panel.active { display: block; }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
+        .lang-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* Auth Card Container */
+        .auth-container {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-brand h1 { font-size: 28px; color: var(--primary-color); font-weight: 800; }
+        .auth-brand h1 span { color: var(--secondary-color); }
+        .auth-brand p { color: #64748b; font-size: 14px; margin-top: 5px; }
+
+        /* Tabs System */
+        .auth-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+        .tab-link {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            transition: 0.3s;
+        }
+        .tab-link.active {
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            margin-bottom: -2px;
+        }
+
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+
+        /* Form Styling */
         .form-group { margin-bottom: 20px; position: relative; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
-        .form-control { width: 100%; padding: 12px 40px 12px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 15px; outline: none; }
-        .form-control:focus { border-color: var(--secondary-color); }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 600; color: #475569; }
         
-        /* Password Visibility Toggle */
-        .pass-toggle { position: absolute; right: 15px; top: 38px; cursor: pointer; color: #94a3b8; }
-        .pass-toggle:hover { color: var(--secondary-color); }
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        
+        .form-control {
+            width: 100%; padding: 12px 14px 12px 42px;
+            border: 1px solid var(--border-color); border-radius: 6px;
+            font-size: 15px; outline: none; transition: 0.3s;
+        }
+        .form-control:focus { border-color: var(--secondary-color); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
-        .submit-btn { width: 100%; background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .password-toggle {
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            cursor: pointer; color: #94a3b8;
+        }
+        .password-toggle:hover { color: var(--secondary-color); }
+
+        select.form-control { padding-left: 42px; appearance: none; }
+
+        .form-options {
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; margin-bottom: 20px;
+        }
+        .forgot-password { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
+        .forgot-password:hover { text-decoration: underline; }
+
+        .submit-btn {
+            width: 100%; background: var(--primary-color); color: white;
+            border: none; padding: 14px; border-radius: 6px;
+            font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
         .submit-btn:hover { background: var(--secondary-color); }
 
-        .forgot-link { display: block; text-align: right; margin-top: 10px; font-size: 14px; color: var(--secondary-color); text-decoration: none; font-weight: 600; }
-        .forgot-link:hover { text-decoration: underline; }
+        /* Dynamic Registration Alert */
+        .reg-success-box {
+            background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534;
+            padding: 15px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; display: none;
+        }
 
-        /* Success Reg Number Banner */
-        .reg-success-box { background: #ecfdf5; border: 1px solid #10b981; color: #065f46; padding: 15px; border-radius: 6px; font-size: 14px; margin-bottom: 20px; display: none; }
+        .lang-rw { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="auth-container">
-        <div class="brand">ASTC<span>.</span> Portals</div>
-        
-        <div class="auth-tabs">
-            <button class="tab-btn active" onclick="switchTab('login')">Kinjira (Login)</button>
-            <button class="tab-btn" onclick="switchTab('register')">Kwiyandikisha (Register)</button>
-        </div>
-
-        <!-- Box yerekana Reg Number iyo umunyeshuri amaze kwiyandikisha -->
-        <div class="reg-success-box" id="regSuccessBox"></div>
-
-        <!-- 1. LOGIN FORM (Abanyeshuri, Abarimu & Admin bose) -->
-        <div id="loginPanel" class="form-panel active">
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Umutsindo / Username (Reg Number cyangwa Email)</label>
-                    <input type="text" id="loginUsername" class="form-control" placeholder="ASTC/2026/SD/... cyangwa email@astc.ac.rw" required>
-                </div>
-                <div class="form-group">
-                    <label>Ijambo ry'Ibanga (Password)</label>
-                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
-                    <i class="fa-solid fa-eye pass-toggle" onclick="togglePassword('loginPassword', this)"></i>
-                </div>
-                <button type="submit" class="submit-btn">Injira mu we Mwanya</button>
-                <a href="#" class="forgot-link" onclick="handleForgotPassword()">Wibagiwe Password?</a>
-            </form>
-        </div>
-
-        <!-- 2. REGISTRATION FORM (Abanyeshuri gusa) -->
-        <div id="registerPanel" class="form-panel">
-            <form id="registerForm">
-                <div class="form-group">
-                    <label>Amazina Yombi (Full Name)</label>
-                    <input type="text" id="regName" class="form-control" placeholder="Karasira Jean" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Ifatika (Izafasha guhindura password)</label>
-                    <input type="email" id="regEmail" class="form-control" placeholder="jean@gmail.com" required>
-                </div>
-                <div class="form-group">
-                    <label>Ishami ushaka kwiga (Faculté / Department)</label>
-                    <select id="regFaculty" class="form-control" style="padding-right: 12px;" required>
-                        <option value="">-- Hitamo Ishami --</option>
-                        <option value="SD">Software Development (SD)</option>
-                        <option value="NE">Network Engineering (NE)</option>
-                        <option value="WD">Website Design & Cybersecurity (WD)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Kora Ijambo ry'Ibanga (Password)</label>
-                    <input type="password" id="regPassword" class="form-control" placeholder="Akura mu nshuro 6" minlength="6" required>
-                    <i class="fa-solid fa-eye pass-toggle" onclick="togglePassword('regPassword', this)"></i>
-                </div>
-                <button type="submit" class="submit-btn" style="background: var(--secondary-color);">Yandikisha muri ASTC</button>
-            </form>
-        </div>
+    <!-- Navigation Header Controls -->
+    <div class="top-actions">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> <span class="lang-en">Back to Website</span><span class="lang-rw">Soma Website</span></a>
+        <button class="lang-btn" onclick="toggleLanguage()">Kinyarwanda</button>
     </div>
 
-    <!-- FIREBASE INTEGRATION ENGINE -->
+    <!-- Main Authentication Box -->
+    <div class="auth-container">
+        <div class="auth-brand">
+            <h1>ASTC<span>.</span> Gateway</h1>
+            <p class="lang-en">Access Strategy & Enterprise Portals Ecosystem</p>
+            <p class="lang-rw">Injira mu mfuruka z'Inzego z'Ikigo n'Abanyeshuri</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="auth-tabs">
+            <div class="tab-link active" onclick="switchTab('login')"><i class="fa-solid fa-right-to-bracket"></i> <span class="lang-en">Sign In</span><span class="lang-rw">Injira</span></div>
+            <div class="tab-link" onclick="switchTab('register')"><i class="fa-solid fa-user-plus"></i> <span class="lang-en">Student Registration</span><span class="lang-rw">Kwiyandikisha</span></div>
+        </div>
+
+        <!-- Notification Box for New Registrations -->
+        <div class="reg-success-box" id="regSuccessBox"></div>
+
+        <!-- 1. UNIVERSAL LOGIN FORM (Students, Teachers, Admin) -->
+        <form id="loginForm" class="auth-form active">
+            <div class="form-group">
+                <label class="lang-en">Reg Number / Institutional Email</label><label class="lang-rw">Kode y'Ishuri / Email y'Ikigo</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-id-card"></i>
+                    <input type="text" id="loginUsername" class="form-control" required placeholder="ASTC-2026-XXXX or email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="lang-en">Password</label><label class="lang-rw">Ijambo ry'Ibanga</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••">
+                    <i class="fa-solid fa-eye password-toggle" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+                </div>
+            </div>
+            <div class="form-options">
+                <div></div>
+                <a href="#" class="forgot-password" onclick="triggerPasswordReset()">
+                    <span class="lang-en">Forgot Password?</span><span class="lang-rw">Wanyagiwe Ijambo ry'Ibanga?</span>
+                </a>
+            </div>
+            <button type="submit" class="submit-btn lang-en">Authenticate Identity</button>
+            <button type="submit" class="submit-btn lang-rw">Emeza Umwirondoro</button>
+        </form>
+
+        <!-- 2. STUDENT REGISTRATION FORM (With Auto Reg Number Generation) -->
+        <form id="registerForm" class="auth-form">
+            <div class="form-group">
+                <label class="lang-en">Full Legal Name</label><label class="lang-rw">Amazina Yose</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="regName" class="form-control" required placeholder="John Doe">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="lang-en">Personal Email Address</label><label class="lang-rw">Email yawe</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="regEmail" class="form-control" required placeholder="johndoe@example.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="lang-en">Select Academic Faculty</label><label class="lang-rw">Hitamo Ishami (Faculty)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <select id="regFaculty" class="form-control" required>
+                        <option value="" disabled selected class="lang-en">Choose Faculty...</option>
+                        <option value="" disabled selected class="lang-rw">Hitamo ishami...</option>
+                        <option value="Software Development">Software Development & Tech</option>
+                        <option value="Advanced Welding">Advanced Industrial Welding</option>
+                        <option value="Electricity & Energy Systems">Electricity & Energy Systems</option>
+                        <option value="Culinary Arts & Hospitality">Culinary Arts & Hospitality</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="lang-en">Create Password</label><label class="lang-rw">Shyiraho Ijambo ry'Ibanga</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="regPassword" class="form-control" required placeholder="Minimum 6 characters">
+                    <i class="fa-solid fa-eye password-toggle" onclick="togglePasswordVisibility('regPassword', this)"></i>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn lang-en" style="background: var(--secondary-color);">Create Student Account</button>
+            <button type="submit" class="submit-btn lang-rw" style="background: var(--secondary-color);">Rema Konti y'Umunyeshuri</button>
+        </form>
+    </div>
+
+    <!-- FIREBASE CORE CONFIGURATION AND AUTH INTEGRATION ENGINE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Firebase Configuration
+        // CONFIGURATION YANDITSWE NAWE
         const firebaseConfig = {
             apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
             authDomain: "astc-424a7.firebaseapp.com",
             projectId: "astc-424a7",
             storageBucket: "astc-424a7.firebasestorage.app",
             messagingSenderId: "1019297443056",
-            appId: "1:1019297443056:web:8626d2276340f08a7a2635"
+            appId: "1:1019297443056:web:8626d2276340f08a7a2635",
+            measurementId: "G-CKM32596L1"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const auth = getAuth(app);
 
-        // ==========================================
-        // 1. ACTION: KWIYANDIKISHA (STUDENT REGISTRATION)
-        // ==========================================
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        // A. SYSTEM ACCOUNT REGISTERATION SYSTEM FOR STUDENTS
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const name = document.getElementById('regName').value;
@@ -141,143 +275,179 @@
             const faculty = document.getElementById('regFaculty').value;
             const password = document.getElementById('regPassword').value;
 
-            // Kurema Reg Number idahura n'iyundi: ASTC + Umwaka + Ishami + Imibare 4 ya random
-            const randomDigits = Math.floor(1000 + Math.random() * 9000); // 1000 kugeza 9999
-            const regNumber = `ASTC/2026/${faculty}/${randomDigits}`;
+            // Kurema Registration Number idasanzwe kandi idashobora guhura n'iy'undi (Unique ID Logic)
+            let isUnique = false;
+            let regNumber = "";
+            
+            while (!isUnique) {
+                const randomDigits = Math.floor(1000 + Math.random() * 9000); // Reba imibare 4 idapfa guhura
+                regNumber = `ASTC-2026-${randomDigits}`;
+                
+                // Kugenzura muri Database ko nta wundi muntu ufite iyi Reg Number
+                const checkQuery = query(collection(db, "users"), where("username", "==", regNumber));
+                const checkSnap = await getDocs(checkQuery);
+                if (checkSnap.empty) {
+                    isUnique = true;
+                }
+            }
 
             try {
-                // Kurema user muri Firebase Authentication
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Kubika amakuru muri Firestore (Biri mu rwego rwa "student")
-                await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
+                // Kubika amakuru yose muri collection imwe yitwa 'users' ifite roles zandukanye
+                await addDoc(collection(db, "users"), {
                     name: name,
                     email: email,
                     faculty: faculty,
-                    regNumber: regNumber,
-                    role: "student"
+                    password: password, // Muri system y'igerageza (Demo system)
+                    username: regNumber, // Ni yo bakoresha nka username binjira
+                    role: "student",
+                    timestamp: serverTimestamp()
                 });
 
-                // Kwereka umunyeshuri Reg Number ye
                 const successBox = document.getElementById('regSuccessBox');
                 successBox.style.display = "block";
-                successBox.innerHTML = `<strong>Kwiyandikisha byagenze neza!</strong><br>Reg Number yawe ni: <b style='color:#ef4444;'>${regNumber}</b><br>Yifashishe nka Username ujya kwinjira.`;
-                
-                document.getElementById('registerForm').reset();
-                switchTab('login'); // Mureke ahite ajya kwinjira
-
+                successBox.innerHTML = `
+                    <strong>Kwiyandikisha Kwasojwe!</strong><br>
+                    Reg Number yawe ni: <strong style="color:var(--secondary-color); font-size:16px;">${regNumber}</strong><br>
+                    <small>Yikopie uyibuke, kuko ari yo ukoresha ukinjira nka Username.</small>
+                `;
+                registerForm.reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) {
-                alert("Ikibazo cyabaye: " + error.message);
+                console.error("Error creating student record: ", error);
             }
         });
 
-        // ==========================================
-        // 2. ACTION: KWINJIRA (LOGIN PROCESS FOR ALL ROLES)
-        // ==========================================
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        // B. UNIVERSAL LOG IN CONTROL (ROLE-BASED REDIRECTIONS)
+        const loginForm = document.getElementById('loginForm');
+        loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const inputUsername = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
+            const userInput = document.getElementById('loginUsername').value.trim();
+            const passwordInput = document.getElementById('loginPassword').value;
 
             try {
-                let targetEmail = inputUsername;
+                // Iyi query ireba niba ikoresheje username (Reg Number ku banyeshuri) cyangwa email (ku barimu n'ubuyobozi)
+                const userQuery = query(
+                    collection(db, "users"), 
+                    where("username", "==", userInput),
+                    where("password", "==", passwordInput)
+                );
+                
+                // Kugerageza nanone niba ari abarimu bakoresheje Email handles zabo
+                const emailQuery = query(
+                    collection(db, "users"), 
+                    where("email", "==", userInput),
+                    where("password", "==", passwordInput)
+                );
 
-                // Niba ari umunyeshuri wakoresheje Reg Number (ASTC/...), tugomba gushaka email yayo muri Firestore
-                if (inputUsername.includes("ASTC/")) {
-                    const q = query(collection(db, "users"), where("regNumber", "==", inputUsername));
-                    const querySnapshot = await getDocs(q);
-                    
-                    if (querySnapshot.empty) {
-                        alert("Iyi Reg Number ntabwo izwi muri sisitemu!");
-                        return;
-                    }
-                    // Gukura email ihuza n'iyo Reg Number
-                    querySnapshot.forEach((doc) => {
-                        targetEmail = data = doc.data().email;
-                    });
+                let userSnapshot = await getDocs(userQuery);
+                if(userSnapshot.empty) {
+                    userSnapshot = await getDocs(emailQuery);
                 }
 
-                // Kwinjira hifashishijwe Firebase Auth
-                const userCredential = await signInWithEmailAndPassword(auth, targetEmail, password);
-                const loggedUser = userCredential.user;
+                if (!userSnapshot.empty) {
+                    // Niba umukoresha abonetse, system ihita ireba inshingano ze (Role Engine)
+                    let loggedUser = null;
+                    userSnapshot.forEach(doc => { loggedUser = doc.data(); });
 
-                // Kureba Role y'uyu winjiye muri Firestore ngo tumugabanye paji ihuye na we
-                const userDoc = await getDoc(doc(db, "users", loggedUser.uid));
-                
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const role = userData.role;
+                    alert(`Welcome back, ${loggedUser.name}! Directing to your portal...`);
 
-                    // Redirection ishingiye kuri Role
-                    if (role === "student") {
-                        window.location.href = "portal.html";
-                    } else if (role === "teacher") {
-                        window.location.href = "teacher.html";
-                    } else if (role === "admin") {
+                    // Gukwirakwiza umuntu ku rugero rwe (Routing logic based on Firebase roles)
+                    if (loggedUser.role === "admin") {
                         window.location.href = "admin.html";
+                    } else if (loggedUser.role === "teacher") {
+                        window.location.href = "teacher.html";
                     } else {
-                        alert("Nta nshingano (Role) uhawe, vugana na Admin.");
+                        window.location.href = "portal.html";
                     }
                 } else {
-                    alert("Amakuru yawe ntabwo ari muri Database ya Firestore.");
+                    alert("Invalid Username/Email or incorrect password! Please check again.");
                 }
-
             } catch (error) {
-                alert("Kwinjira ntibyakunze: " + error.message);
+                console.error("Authentication system failed: ", error);
             }
         });
 
-        // ==========================================
-        // 3. ACTION: GUHINDURA PASSWORD (FORGOT PASSWORD)
-        // ==========================================
-        window.handleForgotPassword = async () => {
-            const email = prompt("Andika Email yawe wandikishije kugira ngo tukoherereze link yo guhindura password:");
-            if (!email) return;
+        // C. FORGOT PASSWORD SIMULATION ENGINE
+        window.triggerPasswordReset = async function() {
+            const currentLang = window.currentLanguageState || "en";
+            const promptMsg = currentLang === "en" ? 
+                "Enter your Registered Username (Reg Number) or Institutional Email:" : 
+                "Andika Kode yawe (Reg Number) cyangwa Email wakoresheje wiyandikisha:";
+            
+            const targetUser = prompt(promptMsg);
+            if (!targetUser) return;
 
-            try {
-                await sendPasswordResetEmail(auth, email);
-                alert("Link yo guhindura password yoherejwe kuri email yawe! Yirebe mu minota mike.");
-            } catch (error) {
-                alert("Ikibazo cyabaye: " + error.message);
+            const qUser = query(collection(db, "users"), where("username", "==", targetUser.trim()));
+            const qEmail = query(collection(db, "users"), where("email", "==", targetUser.trim()));
+            
+            let snap = await getDocs(qUser);
+            if(snap.empty) snap = await getDocs(qEmail);
+
+            if(!snap.empty) {
+                let userObj = null;
+                snap.forEach(doc => { userObj = doc.data(); });
+                
+                const resetMsg = currentLang === "en" ? 
+                    `Security Match Found!\nYour Password is: ${userObj.password}` : 
+                    `Umwirondoro Uhuye neza!\nIjambo ry'Ibanga ryawe ni: ${userObj.password}`;
+                alert(resetMsg);
+            } else {
+                const failMsg = currentLang === "en" ? 
+                    "No account associated with that credential." : 
+                    "Nta konti namba twasanze ifite iyo kode cyangwa email.";
+                alert(failMsg);
             }
-        };
-
+        }
     </script>
 
-    <!-- UI Interaction Scripts -->
+    <!-- UI ELEMENT INTERACTION LOGICS -->
     <script>
-        // Guhinduranya ama-Tabs (Login / Register)
-        function switchTab(type) {
-            const tabs = document.querySelectorAll('.tab-btn');
-            const panels = document.querySelectorAll('.form-panel');
-            
-            tabs.forEach(tab => tab.classList.remove('active'));
-            panels.forEach(panel => panel.classList.remove('active'));
-
-            if (type === 'login') {
-                tabs[0].classList.add('active');
-                document.getElementById('loginPanel').add('active');
-                document.getElementById('loginPanel').classList.add('active');
+        // Kureba no guhisha ijambo ry'ibanga (Show / Hide Password functionality)
+        function togglePasswordVisibility(id, icon) {
+            const field = document.getElementById(id);
+            if (field.type === "password") {
+                field.type = "text";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-                tabs[1].classList.add('active');
-                document.getElementById('registerPanel').classList.add('active');
+                field.type = "password";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
         }
 
-        // Kureba/Guhisha Ijambo ry'Ibanga (Show/Hide Password)
-        function togglePassword(inputId, iconEl) {
-            const input = document.getElementById(inputId);
-            if (input.type === "password") {
-                input.type = "text";
-                iconEl.classList.remove('fa-eye');
-                iconEl.classList.add('fa-eye-slash');
+        // Guhinduranya ama-Tab (Login vs Register)
+        function switchTab(mode) {
+            document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
+            
+            if(mode === 'login') {
+                document.querySelectorAll('.tab-link')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
             } else {
-                input.type = "password";
-                iconEl.classList.remove('fa-eye-slash');
-                iconEl.classList.add('fa-eye');
+                document.querySelectorAll('.tab-link')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        // Guhindura Ururimi (Language Switch Engine)
+        window.currentLanguageState = "en";
+        function toggleLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            const btn = document.querySelector('.lang-btn');
+
+            if (window.currentLanguageState === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+                btn.innerText = "English";
+                window.currentLanguageState = "rw";
+            } else {
+                enElements.forEach(el => el.style.display = 'inline-block');
+                rwElements.forEach(el => el.style.display = 'none');
+                btn.innerText = "Kinyarwanda";
+                window.currentLanguageState = "en";
             }
         }
     </script>
