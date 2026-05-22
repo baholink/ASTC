@@ -14,6 +14,7 @@
             --bg-light: #f8fafc;
             --text-dark: #1e293b;
             --border-color: #cbd5e1;
+            --warning-color: #d97706;
         }
 
         * {
@@ -144,7 +145,7 @@
 
         /* Dynamic Registration Alert */
         .reg-success-box {
-            background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534;
+            background: #fffbeb; border: 1px solid #fef3c7; color: #92400e;
             padding: 15px; border-radius: 6px; margin-bottom: 20px; font-size: 14px; display: none;
         }
 
@@ -251,7 +252,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // CONFIGURATION YANDITSWE NAWE
         const firebaseConfig = {
             apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
             authDomain: "astc-424a7.firebaseapp.com",
@@ -265,7 +265,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // A. SYSTEM ACCOUNT REGISTERATION SYSTEM FOR STUDENTS
+        // A. SYSTEM ACCOUNT REGISTERATION SYSTEM FOR STUDENTS (UPDATED WITH PENDING STATUS)
         const registerForm = document.getElementById('registerForm');
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -275,15 +275,13 @@
             const faculty = document.getElementById('regFaculty').value;
             const password = document.getElementById('regPassword').value;
 
-            // Kurema Registration Number idasanzwe kandi idashobora guhura n'iy'undi (Unique ID Logic)
             let isUnique = false;
             let regNumber = "";
             
             while (!isUnique) {
-                const randomDigits = Math.floor(1000 + Math.random() * 9000); // Reba imibare 4 idapfa guhura
+                const randomDigits = Math.floor(1000 + Math.random() * 9000);
                 regNumber = `ASTC-2026-${randomDigits}`;
                 
-                // Kugenzura muri Database ko nta wundi muntu ufite iyi Reg Number
                 const checkQuery = query(collection(db, "users"), where("username", "==", regNumber));
                 const checkSnap = await getDocs(checkQuery);
                 if (checkSnap.empty) {
@@ -292,24 +290,37 @@
             }
 
             try {
-                // Kubika amakuru yose muri collection imwe yitwa 'users' ifite roles zandukanye
+                // Hano hashyizwemo "status": "pending" kugira ngo admin azabone uburyo bwo ku-approva
                 await addDoc(collection(db, "users"), {
                     name: name,
                     email: email,
                     faculty: faculty,
-                    password: password, // Muri system y'igerageza (Demo system)
-                    username: regNumber, // Ni yo bakoresha nka username binjira
+                    password: password,
+                    username: regNumber,
                     role: "student",
+                    status: "pending", 
                     timestamp: serverTimestamp()
                 });
 
                 const successBox = document.getElementById('regSuccessBox');
                 successBox.style.display = "block";
-                successBox.innerHTML = `
-                    <strong>Kwiyandikisha Kwasojwe!</strong><br>
-                    Reg Number yawe ni: <strong style="color:var(--secondary-color); font-size:16px;">${regNumber}</strong><br>
-                    <small>Yikopie uyibuke, kuko ari yo ukoresha ukinjira nka Username.</small>
-                `;
+                
+                if (window.currentLanguageState === "en") {
+                    successBox.innerHTML = `
+                        <strong>Registration Submitted Successfully!</strong><br>
+                        Your Reg Number is: <strong style="color:var(--secondary-color); font-size:16px;">${regNumber}</strong><br>
+                        <span style="color:var(--warning-color); font-weight:bold;"><i class="fa-solid fa-clock"></i> Status: Pending Admin Approval.</span><br>
+                        <small>Please keep your Reg Number safe. You will be able to log in once the admin approves your account.</small>
+                    `;
+                } else {
+                    successBox.innerHTML = `
+                        <strong>Kwiyandikisha Kwasojwe neza!</strong><br>
+                        Reg Number yawe ni: <strong style="color:var(--secondary-color); font-size:16px;">${regNumber}</strong><br>
+                        <span style="color:var(--warning-color); font-weight:bold;"><i class="fa-solid fa-clock"></i> Imiterere: Itegereje kwemezwa na Admin.</span><br>
+                        <small>Yikopie uyibuke. Uzashobora kwinjira muri system gusa igihe Admin amaze kwemeza konti yawe.</small>
+                    `;
+                }
+                
                 registerForm.reset();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) {
@@ -317,7 +328,7 @@
             }
         });
 
-        // B. UNIVERSAL LOG IN CONTROL (ROLE-BASED REDIRECTIONS)
+        // B. UNIVERSAL LOG IN CONTROL (UPDATED WITH STATUS CHECK)
         const loginForm = document.getElementById('loginForm');
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -326,14 +337,12 @@
             const passwordInput = document.getElementById('loginPassword').value;
 
             try {
-                // Iyi query ireba niba ikoresheje username (Reg Number ku banyeshuri) cyangwa email (ku barimu n'ubuyobozi)
                 const userQuery = query(
                     collection(db, "users"), 
                     where("username", "==", userInput),
                     where("password", "==", passwordInput)
                 );
                 
-                // Kugerageza nanone niba ari abarimu bakoresheje Email handles zabo
                 const emailQuery = query(
                     collection(db, "users"), 
                     where("email", "==", userInput),
@@ -346,13 +355,21 @@
                 }
 
                 if (!userSnapshot.empty) {
-                    // Niba umukoresha abonetse, system ihita ireba inshingano ze (Role Engine)
                     let loggedUser = null;
                     userSnapshot.forEach(doc => { loggedUser = doc.data(); });
 
+                    // Genzura niba ari umunyeshuri kandi niba yemerewe (Approved)
+                    if (loggedUser.role === "student" && loggedUser.status === "pending") {
+                        if (window.currentLanguageState === "en") {
+                            alert("Your account is still pending admin approval. Please contact the administration.");
+                        } else {
+                            alert("Konti yawe ntiremezwa na Admin. Tegereza cyangwa uvugane n'ubuyobozi.");
+                        }
+                        return; // Guhagarika login process ntabe yakwinjira
+                    }
+
                     alert(`Welcome back, ${loggedUser.name}! Directing to your portal...`);
 
-                    // Gukwirakwiza umuntu ku rugero rwe (Routing logic based on Firebase roles)
                     if (loggedUser.role === "admin") {
                         window.location.href = "admin.html";
                     } else if (loggedUser.role === "teacher") {
@@ -403,7 +420,6 @@
 
     <!-- UI ELEMENT INTERACTION LOGICS -->
     <script>
-        // Kureba no guhisha ijambo ry'ibanga (Show / Hide Password functionality)
         function togglePasswordVisibility(id, icon) {
             const field = document.getElementById(id);
             if (field.type === "password") {
@@ -417,7 +433,6 @@
             }
         }
 
-        // Guhinduranya ama-Tab (Login vs Register)
         function switchTab(mode) {
             document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(el => el.classList.remove('active'));
@@ -431,7 +446,6 @@
             }
         }
 
-        // Guhindura Ururimi (Language Switch Engine)
         window.currentLanguageState = "en";
         function toggleLanguage() {
             const enElements = document.querySelectorAll('.lang-en');
