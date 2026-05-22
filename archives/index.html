@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acline Start Training Centre (ASTC) - Home</title>
-    <!-- Font Awesome Dashboard Icons -->
+    <title>Acline Start Training Centre (ASTC)</title>
+    <!-- Font Awesome Icons System -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0f172a; /* Tech Dark Blue */
-            --secondary-color: #2563eb; /* Active Tech Blue */
-            --accent-color: #f59e0b; /* Golden Academic Accent */
-            --success-color: #10b981; /* Success Green */
-            --text-dark: #334155;
-            --text-light: #f8fafc;
-            --bg-light: #f1f5f9;
-            --border-color: #cbd5e1;
+            --primary-dark: #0f172a; /* Deep Space Blue */
+            --primary-blue: #2563eb; /* Modern Tech Blue */
+            --accent-gold: #f59e0b; /* Executive Gold */
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
         }
 
         * {
-            margin: 0; padding: 0; box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             scroll-behavior: smooth;
         }
@@ -27,309 +28,316 @@
         body {
             background-color: #ffffff;
             color: var(--text-dark);
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Top Institutional Bar */
+        /* Top Bar Info Dashboard */
         .top-bar {
-            background-color: var(--primary-color);
+            background-color: var(--primary-dark);
             color: white;
-            padding: 12px 6%;
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
+            font-size: 13px;
         }
-        .top-bar .info-contact { display: flex; gap: 20px; }
-        .top-bar a { color: white; text-decoration: none; }
-        .top-bar a:hover { color: var(--accent-color); }
-
+        .top-contacts { display: flex; gap: 20px; }
+        .top-contacts span { display: inline-flex; align-items: center; gap: 6px; }
+        .top-bar-right { display: flex; align-items: center; gap: 15px; }
+        
         .lang-btn {
-            background: var(--secondary-color);
+            background: var(--primary-blue);
             color: white; border: none;
-            padding: 6px 14px; cursor: pointer;
-            border-radius: 4px; font-weight: bold;
-            transition: 0.3s;
+            padding: 5px 12px; border-radius: 4px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
         }
         .lang-btn:hover { background: #1d4ed8; }
 
-        /* Navigation Header Infrastructure */
+        /* Premium Header System */
         header {
             background: white;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             position: sticky; top: 0; z-index: 1000;
-            padding: 18px 6%;
+            padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        .logo { font-size: 26px; font-weight: 800; color: var(--primary-color); letter-spacing: -0.5px; }
-        .logo span { color: var(--secondary-color); }
-
-        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 600; font-size: 15px; transition: 0.3s; }
-        nav a:hover { color: var(--secondary-color); }
-
-        /* Premium Link Button to Login Gate */
-        .portal-gate-btn {
-            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
-            color: white !important;
-            padding: 10px 24px; border-radius: 6px;
-            display: inline-flex; align-items: center; gap: 8px;
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-            transition: 0.3s;
+        .logo {
+            font-size: 26px; font-weight: 800;
+            color: var(--primary-dark); letter-spacing: -0.5px;
+            text-decoration: none;
         }
-        .portal-gate-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
+        .logo span { color: var(--primary-blue); }
 
-        /* Hero Banner System */
-        .hero {
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
-            height: 80vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center;
-            color: white; padding: 0 20px;
-        }
-        .hero h1 { font-size: 54px; margin-bottom: 20px; font-weight: 800; letter-spacing: -1px; }
-        .hero p { font-size: 20px; max-width: 850px; margin-bottom: 35px; color: #cbd5e1; }
-        .hero .btn-group { display: flex; gap: 15px; }
-        .hero .btn { padding: 14px 32px; text-decoration: none; font-weight: bold; border-radius: 6px; transition: 0.3s; font-size: 16px; }
-        .hero .btn-primary { background: var(--secondary-color); color: white; }
-        .hero .btn-primary:hover { background: #1d4ed8; }
-        .hero .btn-outline { border: 2px solid white; color: white; }
-        .hero .btn-outline:hover { background: white; color: var(--primary-color); }
-
-        /* General Layout Controls */
-        section { padding: 90px 6%; }
-        .section-title { font-size: 36px; color: var(--primary-color); margin-bottom: 12px; text-align: center; font-weight: 800; }
-        .section-subtitle { text-align: center; color: #64748b; margin-bottom: 60px; font-size: 16px; max-width: 650px; margin-left: auto; margin-right: auto; }
-
-        /* Dynamic Announcements & Blogs Cards */
-        .section-bg { background: var(--bg-light); }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        /* Navigation Menu & Mobile Toggle */
+        .nav-container { display: flex; align-items: center; }
         
-        .card {
-            background: white; padding: 30px; border-radius: 10px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-            border-top: 4px solid var(--secondary-color); transition: 0.3s;
-            display: flex; flex-direction: column; justify-content: space-between;
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; }
+        nav a {
+            text-decoration: none; color: var(--text-dark);
+            font-weight: 600; transition: 0.3s; font-size: 15px;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .card-date { color: var(--accent-color); font-weight: bold; font-size: 13px; margin-bottom: 10px; display: block; }
-        .card h3 { font-size: 19px; color: var(--primary-color); margin-bottom: 12px; }
-        .card p { color: #475569; font-size: 15px; margin-bottom: 15px; }
+        nav a:hover { color: var(--primary-blue); }
 
-        /* Media and Gallery Ecosystem */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .gallery-item { position: relative; border-radius: 10px; overflow: hidden; height: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
+        /* Gateway Authentication Button */
+        .gateway-btn {
+            background: var(--primary-dark);
+            color: white !important; padding: 10px 20px;
+            border-radius: 6px; display: inline-flex;
+            align-items: center; gap: 8px; transition: 0.3s;
+        }
+        .gateway-btn:hover { background: var(--primary-blue); }
+
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--primary-dark); }
+
+        /* Responsive Hero Area */
+        .hero-section {
+            background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.88)), url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            min-height: 80vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; color: white; padding: 40px 5%;
+        }
+        .hero-section h1 { font-size: 48px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; max-width: 900px; line-height: 1.2; }
+        .hero-section p { font-size: 18px; color: #cbd5e1; max-width: 750px; margin-bottom: 35px; }
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        
+        .btn {
+            padding: 12px 28px; text-decoration: none;
+            font-weight: bold; border-radius: 6px; transition: 0.3s; font-size: 15px;
+        }
+        .btn-primary { background: var(--primary-blue); color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-outline { border: 2px solid white; color: white; }
+        .btn-outline:hover { background: white; color: var(--primary-dark); }
+
+        /* General Section Frame */
+        section { padding: 80px 5%; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-size: 32px; font-weight: 800; color: var(--primary-dark); margin-bottom: 12px; }
+        .section-subtitle { color: var(--text-muted); font-size: 16px; max-width: 600px; margin: 0 auto; }
+
+        /* Dynamic Grid Layouts */
+        .dynamic-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        
+        .panel-card {
+            background: white; padding: 25px; border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
+            border-top: 4px solid var(--primary-blue); transition: 0.3s;
+        }
+        .panel-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); }
+        .panel-tag { display: inline-block; background: #eff6ff; color: var(--primary-blue); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-bottom: 15px; }
+        .panel-card h3 { font-size: 18px; color: var(--primary-dark); margin-bottom: 10px; }
+        .panel-card p { color: #475569; font-size: 14.5px; line-height: 1.6; }
+        .panel-meta { display: block; font-size: 12px; color: var(--text-muted); margin-top: 15px; font-weight: 500; }
+
+        /* Photo Gallery Display Framework */
+        .gallery-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+        }
+        .gallery-item {
+            position: relative; border-radius: 8px; overflow: hidden; height: 250px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .gallery-item:hover img { transform: scale(1.08); }
         .gallery-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(transparent, rgba(15, 23, 42, 0.95));
-            padding: 25px; color: white;
+            padding: 20px; color: white;
         }
-        .gallery-overlay h4 { font-size: 18px; font-weight: bold; margin-bottom: 4px; }
-        .gallery-overlay p { font-size: 13px; color: #cbd5e1; }
 
-        /* Contact & Inquiry Section */
-        .contact-box { background: white; max-width: 600px; margin: 0 auto; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-size: 15px; }
-        .form-control:focus { border-color: var(--secondary-color); }
-        .submit-btn { width: 100%; background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .submit-btn:hover { background: var(--secondary-color); }
-
-        /* Back to Top Floating Button */
-        .back-to-top {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--secondary-color); color: white;
-            width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; cursor: pointer; text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            opacity: 0; transition: 0.3s; z-index: 999; pointer-events: none;
+        /* Corporate Footer System */
+        footer {
+            background: var(--primary-dark); color: #cbd5e1;
+            padding: 60px 5% 20px 5%; border-top: 4px solid var(--primary-blue);
         }
-        .back-to-top.show { opacity: 1; pointer-events: auto; }
+        .footer-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-bottom: 40px;
+        }
+        .footer-box h4 { color: white; font-size: 16px; margin-bottom: 20px; font-weight: 700; position: relative; }
+        .footer-box h4::after { content: ''; width: 35px; height: 3px; background: var(--primary-blue); position: absolute; bottom: -6px; left: 0; }
+        .footer-box p, .footer-box a { font-size: 14px; color: #94a3b8; text-decoration: none; line-height: 1.8; display: block; margin-bottom: 8px; }
+        
+        .social-row { display: flex; gap: 12px; margin-top: 15px; }
+        .social-row a {
+            background: #1e293b; color: white; width: 36px; height: 36px;
+            border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s;
+        }
+        .social-row a:hover { background: var(--primary-blue); }
+        .footer-bottom { border-top: 1px solid #1e293b; text-align: center; padding-top: 20px; font-size: 13px; color: #64748b; }
 
-        /* Footer Infrastructure */
-        footer { background: var(--primary-color); color: #94a3b8; padding: 80px 6% 30px 6%; border-top: 5px solid var(--secondary-color); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 50px; }
-        .footer-col h3 { color: white; font-size: 19px; margin-bottom: 25px; position: relative; }
-        .footer-col h3::after { content: ''; width: 45px; height: 3px; background: var(--secondary-color); position: absolute; bottom: -8px; left: 0; }
-        .footer-col p { margin-bottom: 12px; font-size: 15px; }
-        .social-links a { color: white; background: #1e293b; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 12px; transition: 0.3s; }
-        .social-links a:hover { background: var(--secondary-color); }
-        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #1e293b; font-size: 14px; }
+        /* RESPONSIVE LAYOUT (MEDIA QUERIES FOR PHONES) */
+        @media (max-width: 768px) {
+            .top-bar { flex-direction: column; gap: 8px; text-align: center; padding: 10px; }
+            header { padding: 15px 20px; }
+            .menu-toggle { display: block; }
+            
+            nav {
+                display: none; position: absolute; top: 70px; left: 0; right: 0;
+                background: white; box-shadow: 0 10px 15px rgba(0,0,0,0.1); padding: 20px;
+                border-bottom: 3px solid var(--primary-blue);
+            }
+            nav.open { display: block; }
+            nav ul { flex-direction: column; width: 100%; text-align: left; gap: 15px; }
+            .gateway-btn { width: 100%; justify-content: center; }
+
+            .hero-section h1 { font-size: 32px; }
+            .hero-section p { font-size: 15px; }
+            section { padding: 50px 20px; }
+            .section-title { font-size: 26px; }
+        }
 
         .lang-rw { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- 1. Institutional Contact Strip -->
+    <!-- Top Info Section -->
     <div class="top-bar">
-        <div class="info-contact">
-            <span><i class="fa-solid fa-envelope"></i> info@astc.ac.rw</span>
+        <div class="top-contacts">
+            <span><i class="fa-solid fa-envelope"></i> contact@astc.ac.rw</span>
             <span><i class="fa-solid fa-phone"></i> +250 788 000 000</span>
         </div>
-        <button class="lang-btn" onclick="toggleLanguage()">Kinyarwanda</button>
+        <div class="top-bar-right">
+            <button class="lang-btn" onclick="toggleLanguage()">Kinyarwanda</button>
+        </div>
     </div>
 
-    <!-- 2. System Navigation Core -->
+    <!-- Responsive Navigation Header -->
     <header>
-        <div class="logo">ASTC<span>.</span></div>
-        <nav>
+        <a href="index.html" class="logo">ASTC<span>.</span></a>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fa-solid fa-bars" id="menuIcon"></i></div>
+        <nav id="navMenu">
             <ul>
                 <li><a href="#" class="lang-en">Home</a><a href="#" class="lang-rw">Ahabanza</a></li>
                 <li><a href="#announcements" class="lang-en">Announcements</a><a href="#announcements" class="lang-rw">Amatangazo</a></li>
-                <li><a href="#gallery" class="lang-en">Campus Life</a><a href="#gallery" class="lang-rw">Iby'Ikigo</a></li>
-                <li><a href="#blogs" class="lang-en">Insights</a><a href="#blogs" class="lang-rw">Amakuru</a></li>
-                <li><a href="#contact" class="lang-en">Inquiries</a><a href="#contact" class="lang-rw">Tuvugishe</a></li>
-                <!-- Unified Secure Entrance -->
+                <li><a href="#gallery" class="lang-en">Campus Life</a><a href="#gallery" class="lang-rw">Ubuzima bw'Ikigo</a></li>
+                <li><a href="#blogs" class="lang-en">Insights</a><a href="#blogs" class="lang-rw">Inyandiko</a></li>
                 <li>
-                    <a href="login.html" class="portal-gate-btn">
-                        <i class="fa-solid fa-shield-halved"></i> 
-                        <span class="lang-en">Portals Login</span><span class="lang-rw">Injira mu System</span>
+                    <a href="login.html" class="gateway-btn">
+                        <i class="fa-solid fa-user-lock"></i> 
+                        <span class="lang-en">Portal Access</span><span class="lang-rw">Inzego z'Ikigo</span>
                     </a>
                 </li>
             </ul>
         </nav>
     </header>
 
-    <!-- 3. Hero Showcase Area -->
-    <section class="hero">
-        <h1 class="lang-en">Catalyzing Industrial Excellence Through Skills</h1>
-        <h1 class="lang-rw">Urufunguzo rw'Ubumenyi n'Imyuga Kinyamwuga</h1>
-        <p class="lang-en">Welcome to Acline Start Training Centre (ASTC). We deliver high-standard technical vocational pathways, software engineering excellence frameworks, and elite industrial craftsmanship.</p>
-        <p class="lang-rw">Murakaza neza kuri Acline Start Training Centre (ASTC). Dutanga ireme ry'uburezi mu myuga n'ikoranabuhanga rihanitse, n'ubwubatsi bw'ejo hazaza.</p>
-        <div class="btn-group">
-            <a href="login.html" class="btn btn-primary lang-en">Access Portal Ecosystem</a>
-            <a href="login.html" class="btn btn-primary lang-rw">Injira mu Rwego rwawe</a>
-            <a href="#announcements" class="btn btn-outline lang-en">Latest News</a>
-            <a href="#announcements" class="btn btn-outline lang-rw">Amakuru Mashya</a>
+    <!-- Professional Hero Banner -->
+    <section class="hero-section">
+        <h1 class="lang-en">Empowering the Next Generation of Industrial Experts</h1>
+        <h1 class="lang-rw">Guhitamo Ejo Hazaza H’Indashyikirwa mu Myuga</h1>
+        <p class="lang-en">Welcome to Acline Start Training Centre (ASTC). Access professional technical education, modern engineering architectures, and advanced certifications.</p>
+        <p class="lang-rw">Murakaza neza kuri Acline Start Training Centre (ASTC). Reba ireme ry'uburezi bw'imyuga n'ikoranabuhanga rigezweho rishyingiye ku mishinga ihamye.</p>
+        <div class="hero-buttons">
+            <a href="login.html" class="btn btn-primary lang-en">Sign Into Portal</a>
+            <a href="login.html" class="btn btn-primary lang-rw">Injira muri System</a>
+            <a href="#announcements" class="btn btn-outline lang-en">Latest Notices</a>
+            <a href="#announcements" class="btn btn-outline lang-rw">Amatangazo Mashya</a>
         </div>
     </section>
 
-    <!-- 4. Dynamic Announcements Board (Synced with Firebase) -->
-    <section id="announcements" class="section-bg">
-        <h2 class="section-title lang-en">Official Board Announcements</h2>
-        <h2 class="section-title lang-rw">Amatangazo Aturutse mu Ubuyobozi</h2>
-        <p class="section-subtitle lang-en">Verified academic directives, intake procedures, and general notices published directly by the ASTC Executive Office.</p>
-        <p class="section-subtitle lang-rw">Imyanzuro y'ishuri, amatangazo n'ingengabihe byanditswe neza n'ubuyobozi bukuru bwa ASTC.</p>
-        
-        <div class="grid-container" id="announcementBox">
-            <!-- Sync Loader Area -->
-            <div class="card">
-                <span class="card-date">System</span>
-                <h3 class="lang-en">Syncing with Institution Hub...</h3>
-                <h3 class="lang-rw">Guhubanya na System y'Ikigo...</h3>
-                <p class="lang-en">Retrieving active announcements from database...</p>
-                <p class="lang-rw">Gufata amatangazo ya nyayo ari muri database...</p>
+    <!-- DYNAMIC SECTION 1: ANNOUNCEMENTS (Pulled from Firebase Database) -->
+    <section id="announcements" style="background-color: var(--bg-light);">
+        <div class="section-header">
+            <h2 class="section-title lang-en">Official Directives & Notices</h2>
+            <h2 class="section-title lang-rw">Amatangazo n'Imyanzuro</h2>
+            <p class="section-subtitle lang-en">Real-time notifications synchronized directly from the ASTC High Administration Control Panel.</p>
+            <p class="section-subtitle lang-rw">Amatangazo atangwa directly n'Ubuyobozi Bukuru bwa ASTC ako kanya binyuze kuri internet.</p>
+        </div>
+
+        <div class="dynamic-grid" id="announcementContainer">
+            <!-- Loader Box before Database responds -->
+            <div class="panel-card" style="border-top-color: var(--accent-gold);">
+                <span class="panel-tag">System Sync</span>
+                <h3 class="lang-en">Syncing with Campus Firestore...</h3>
+                <h3 class="lang-rw">Iri guhuza na Database y'Ikigo...</h3>
+                <p class="lang-en">Fetching active directives. Please ensure internet access is online.</p>
+                <p class="lang-rw">Tegereza amatangazo y'ubuyobozi ari gukururwa kuri internet.</p>
             </div>
         </div>
     </section>
 
-    <!-- 5. Interactive Image & Media Gallery Display Section -->
+    <!-- VISUAL GALLERY SECTION -->
     <section id="gallery">
-        <h2 class="section-title lang-en">Campus Operations & Media</h2>
-        <h2 class="section-title lang-rw">Ubuzima n'Ibyiza Biranga Ikigo</h2>
-        <p class="section-subtitle lang-en">A visual workspace experience displaying our high-profile events, administrative panels, and tech engineering innovation labs.</p>
-        <p class="section-subtitle lang-rw">Isura n'amashusho y'ibirori bya Graduation, inama z'abayobozi, n'ubumenyi bufatika bwo mu ma-labs yacu.</p>
-        
-        <div class="gallery-grid">
+        <div class="section-header">
+            <h2 class="section-title lang-en">Events & Architectural Environment</h2>
+            <h2 class="section-title lang-rw">Ibirori n'Ubuzima bw'Ikigo</h2>
+            <p class="section-subtitle lang-en">Moments from high-profile graduation ceremonies, management councils, and technology workshops.</p>
+            <p class="section-subtitle lang-rw">Amashusho y'ibirori bya Graduation, inama z'Abayobozi, n'amasomo y'ingiro mu ma-Workshops yathu.</p>
+        </div>
+
+        <div class="gallery-container">
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Graduation ASTC">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80" alt="Graduation">
                 <div class="gallery-overlay">
-                    <h4 class="lang-en">Annual Graduation Arena</h4>
-                    <h4 class="lang-rw">Ibirori bya Graduation</h4>
-                    <p class="lang-en">Certifying verified industrial experts</p>
-                    <p class="lang-rw">Guha impamyabumenyi inzobere nshya</p>
+                    <h4 class="lang-en">Annual Graduation</h4><h4 class="lang-rw">Ibirori bya Graduation</h4>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-en">Celebrating career achievements</p>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-rw">Kwishimira intsinzi n'ubumenyi</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80" alt="Board meeting">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80" alt="Board Council">
                 <div class="gallery-overlay">
-                    <h4 class="lang-en">ASTC Administrative Summit</h4>
-                    <h4 class="lang-rw">Inama y'Abayobozi Bakuru</h4>
-                    <p class="lang-en">Strategic management for curriculum value</p>
-                    <p class="lang-rw">Ingamba z'ireme n'iterambere ry'ishuri</p>
+                    <h4 class="lang-en">Leadership Operations</h4><h4 class="lang-rw">Inama y'Abayobozi Bakuru</h4>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-en">Strategic management directives</p>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-rw">Gushyiraho ingamba nshya z'ejo</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80" alt="Tech Labs">
+                <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80" alt="Workshop">
                 <div class="gallery-overlay">
-                    <h4 class="lang-en">Advanced Innovation Labs</h4>
-                    <h4 class="lang-rw">Ibikorwa bya Pratiqué muri Lab</h4>
-                    <p class="lang-en">Hands-on modern industrial design frameworks</p>
-                    <p class="lang-rw">Ubumenyi bw'ingiro bufatika mu makoranyabuhanga</p>
+                    <h4 class="lang-en">Engineering Workshop</h4><h4 class="lang-rw">Isomo rya Pratiqué muri Laboratwari</h4>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-en">Advanced hands-on infrastructure</p>
+                    <p style="font-size:12px; color:#cbd5e1;" class="lang-rw">Gushyira ubumenyi mu bikorwa</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. Dynamic Blogs Section (Synced with Abarimu inputs via Firebase) -->
-    <section id="blogs" class="section-bg">
-        <h2 class="section-title lang-en">Tech Innovations & Faculty Insights</h2>
-        <h2 class="section-title lang-rw">Inyandiko n'Amakuru ya Kinyamwuga</h2>
-        <p class="section-subtitle lang-en">Read specialized papers and insights curated by the expert training faculty of ASTC.</p>
-        <p class="section-subtitle lang-rw">Soma inyandiko n'ubushakashatsi byandikwa n'abarimu n'inzobere bacu ba ASTC.</p>
+    <!-- DYNAMIC SECTION 2: INSIGHTS / BLOGS (Pulled from Firebase Database) -->
+    <section id="blogs" style="background-color: var(--bg-light);">
+        <div class="section-header">
+            <h2 class="section-title lang-en">Latest Insights & Innovations</h2>
+            <h2 class="section-title lang-rw">Inyandiko n'Amakuru Mashya</h2>
+            <p class="section-subtitle lang-en">Comprehensive analysis and evolutionary reports published by ASTC high instructors.</p>
+            <p class="section-subtitle lang-rw">Amakuru n'inyandiko z’ubumenyi n'iterambere biba byanditswe n’abarimu ba ASTC.</p>
+        </div>
 
-        <div class="grid-container" id="blogBox">
-            <div class="card" style="border-top-color: var(--accent-color);">
-                <h3>Connecting to media hub...</h3>
-                <p>Syncing professional insights data streams...</p>
+        <div class="dynamic-grid" id="blogContainer">
+            <!-- Data loaded in real-time from Firestore 'blogs' -->
+            <div class="panel-card" style="border-top-color: var(--primary-blue);">
+                <h3>Connecting to media channels...</h3>
+                <p>Loading active evolutionary tech reports...</p>
             </div>
         </div>
     </section>
 
-    <!-- 7. Quick Contact Inquiry Form Box -->
-    <section id="contact">
-        <h2 class="section-title lang-en">Direct Inquiry Hub</h2>
-        <h2 class="section-title lang-rw">Gira Icyo Batubaza</h2>
-        <p class="section-subtitle lang-en">Have questions regarding registration, courses, or partnerships? Message our team directly.</p>
-        <p class="section-subtitle lang-rw">Ufite ikibazo cyangwa inyunganizi ku kwandikisha n'amasomo? Yohereza ubutumwa hano buhite bukugerera ku buyobozi.</p>
-        
-        <div class="contact-box">
-            <form id="contactForm">
-                <div class="form-group">
-                    <label class="lang-en">Full Name</label><label class="lang-rw">Amazina Yose</label>
-                    <input type="text" id="contactName" class="form-control" required placeholder="e.g., Alex Mukiza">
-                </div>
-                <div class="form-group">
-                    <label class="lang-en">Email/Phone</label><label class="lang-rw">Email cyangwa Telefone</label>
-                    <input type="text" id="contactInfo" class="form-control" required placeholder="alex@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label class="lang-en">Your Message Statement</label><label class="lang-rw">Ubutumwa bwawe</label>
-                    <textarea id="contactMessage" class="form-control" rows="4" required placeholder="Write details here..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn lang-en">Send Message Inquiry</button>
-                <button type="submit" class="submit-btn lang-rw">Ohereza Ubutumwa</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- 8. Floating Action Element Back to Top -->
-    <a href="#" class="back-to-top" id="backToTop"><i class="fa-solid fa-arrow-up"></i></a>
-
-    <!-- 9. Institutional Premium Footer Area -->
+    <!-- Footer System -->
     <footer>
         <div class="footer-grid">
-            <div class="footer-col">
-                <h3>ASTC Academy</h3>
-                <p class="lang-en">Acline Start Training Centre is an industry-leading educational hub specialized in empowering global capabilities through structured technical systems.</p>
-                <p class="lang-rw">Acline Start Training Centre ni ikigo cy'indashyikirwa n'ikoranabuhanga cyongerera ubushobozi urubyiruko binyuze mu myuga n'ubumenyi bufatika.</p>
+            <div class="footer-box">
+                <h4>ASTC Academy</h4>
+                <p class="lang-en">Acline Start Training Centre is an accredited premium technological institute deploying specialized vocational intelligence systems.</p>
+                <p class="lang-rw">Acline Start Training Centre ni ikigo cyemewe kandi gitanga uburezi bufite ireme bushingiye ku gukoresha ubwenge n'imyuga.</p>
             </div>
-            <div class="footer-col">
-                <h3 class="lang-en">Campus Address</h3>
-                <h3 class="lang-rw">Aho Tuba</h3>
-                <p><i class="fa-solid fa-location-dot" style="color:var(--secondary-color);"></i> Kigali, Rwanda</p>
-                <p><i class="fa-solid fa-phone" style="color:var(--secondary-color);"></i> +250 788 000 000</p>
-                <p><i class="fa-solid fa-envelope" style="color:var(--secondary-color);"></i> contact@astc.ac.rw</p>
+            <div class="footer-box">
+                <h4 class="lang-en">Institutional Links</h4><h4 class="lang-rw">Inzego z'Ikigo</h4>
+                <a href="login.html">Student Portal Gateway</a>
+                <a href="login.html">Instructor Control Panel</a>
+                <a href="login.html">Executive Admin Desk</a>
             </div>
-            <div class="footer-col">
-                <h3 class="lang-en">Follow Channels</h3>
-                <h3 class="lang-rw">Tukurikire</h3>
-                <div class="social-links">
+            <div class="footer-box">
+                <h4 class="lang-en">Campus Location</h4><h4 class="lang-rw">Aho Tuba</h4>
+                <p><i class="fa-solid fa-location-dot"></i> Kigali, Rwanda</p>
+                <p><i class="fa-solid fa-phone"></i> +250 788 000 000</p>
+                <p><i class="fa-solid fa-envelope"></i> registration@astc.ac.rw</p>
+            </div>
+            <div class="footer-box">
+                <h4 class="lang-en">Follow Media</h4><h4 class="lang-rw">Tukurikirane</h4>
+                <div class="social-row">
                     <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#"><i class="fa-brands fa-twitter"></i></a>
                     <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
@@ -338,16 +346,16 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Acline Start Training Centre (ASTC). Structural System Framework. All Rights Reserved.</p>
+            <p>&copy; 2026 Acline Start Training Centre (ASTC). Cloud Infrastructure Enabled.</p>
         </div>
     </footer>
 
-    <!-- REAL-TIME DATABASE INTERACTION CODE VIA FIREBASE SDK -->
+    <!-- REAL-TIME FIREBASE ENGINE CONNECTIVITY -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Configuration Iyawe Bwite
+        // Firebase Setup Core (Irihuza neza n'izindi paji zose)
         const firebaseConfig = {
             apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
             authDomain: "astc-424a7.firebaseapp.com",
@@ -361,109 +369,96 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // A. GUHUKANISHYA AMATANGAZO (ANNOUNCEMENTS SYNC ENGINE)
+        // 1. SYNCING ANNOUNCEMENTS IN REAL TIME (Pulls Admin Posts)
         const annQuery = query(collection(db, "announcements"), orderBy("timestamp", "desc"));
         onSnapshot(annQuery, (snapshot) => {
-            const container = document.getElementById('announcementBox');
+            const container = document.getElementById('announcementContainer');
             if(!snapshot.empty) {
                 container.innerHTML = "";
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     container.innerHTML += `
-                        <div class="card">
-                            <span class="card-date"><i class="fa-solid fa-calendar-check"></i> ${data.date || 'ASTC Post'}</span>
+                        <div class="panel-card">
+                            <span class="panel-tag"><i class="fa-solid fa-bullhorn"></i> ${data.date || 'Notice'}</span>
                             <h3>
                                 <span class="lang-en">${data.title_en}</span>
                                 <span class="lang-rw" style="display:none;">${data.title_rw}</span>
                             </h3>
                             <p>${data.message}</p>
+                            <span class="panel-meta">Issued by: ASTC Office</span>
                         </div>
                     `;
                 });
-                maintainLanguageView();
+                maintainLanguageState();
             }
         });
 
-        // B. GUHUKANISHYA INYANDIKO Z'ABARIMU (BLOGS SYNC ENGINE)
+        // 2. SYNCING BLOGS IN REAL TIME (Pulls Teacher Insights)
         const blogQuery = query(collection(db, "blogs"), orderBy("timestamp", "desc"));
         onSnapshot(blogQuery, (snapshot) => {
-            const container = document.getElementById('blogBox');
+            const container = document.getElementById('blogContainer');
             if(!snapshot.empty) {
                 container.innerHTML = "";
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     container.innerHTML += `
-                        <div class="card" style="border-top-color: var(--success-color)">
-                            <span class="card-date" style="color: var(--success-color)"><i class="fa-solid fa-award"></i> ${data.tag}</span>
+                        <div class="panel-card" style="border-top-color: var(--accent-gold);">
+                            <span class="panel-tag" style="background:#fffbeb; color:var(--accent-gold);"><i class="fa-solid fa-tags"></i> ${data.tag || 'Insight'}</span>
                             <h3>${data.title}</h3>
                             <p>${data.summary}</p>
+                            <span class="panel-meta">Published by Faculty Board</span>
                         </div>
                     `;
                 });
             }
         });
 
-        // C. INQUIRY MESSAGES AGENT (FORM HANDLER TO FIREBASE)
-        const contactForm = document.getElementById('contactForm');
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const info = document.getElementById('contactInfo').value;
-            const msg = document.getElementById('contactMessage').value;
-
-            try {
-                await addDoc(collection(db, "contact_messages"), {
-                    sender_name: name,
-                    sender_contact: info,
-                    message: msg,
-                    timestamp: serverTimestamp()
-                });
-                alert(window.currentLanguageState === "en" ? 
-                    "Your inquiry message sent successfully! We will contact you soon." : 
-                    "Ubutumwa bwawe bwageze ku buyobozi bukuru neza! Turakuvugisha vuba.");
-                contactForm.reset();
-            } catch (err) {
-                console.error("Message push failed: ", err);
-            }
-        });
-
-        function maintainLanguageView() {
-            const currentLang = window.currentLanguageState || "en";
+        // To ensure newly synchronized content conforms to the user's chosen language layout
+        function maintainLanguageState() {
+            const current = window.activeLanguage || "en";
             const enElements = document.querySelectorAll('.lang-en');
             const rwElements = document.querySelectorAll('.lang-rw');
-            if (currentLang === "rw") {
+            if (current === "rw") {
                 enElements.forEach(el => el.style.display = 'none');
                 rwElements.forEach(el => el.style.display = 'inline-block');
             }
         }
     </script>
 
-    <!-- UTILITY ACTIONS: BACK-TO-TOP & LANGUAGE SWITCH -->
+    <!-- MOBILE NAVIGATION MENU LOGIC & LANGUAGE TOGGLE SWITCH -->
     <script>
-        // Floating Back to Top Logic Trigger
-        const btt = document.getElementById('backToTop');
-        window.addEventListener('scroll', () => {
-            if(window.scrollY > 400) { btt.classList.add('show'); } 
-            else { btt.classList.remove('show'); }
-        });
+        // Hamburg Menu Functionality
+        function toggleMenu() {
+            const nav = document.getElementById('navMenu');
+            const icon = document.getElementById('menuIcon');
+            nav.classList.toggle('open');
+            
+            if(nav.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
 
-        // Universal Language Controller
-        window.currentLanguageState = "en";
+        // Language Translation Switch Control
+        window.activeLanguage = "en";
         function toggleLanguage() {
             const enElements = document.querySelectorAll('.lang-en');
             const rwElements = document.querySelectorAll('.lang-rw');
             const btn = document.querySelector('.lang-btn');
 
-            if (window.currentLanguageState === "en") {
+            if (window.activeLanguage === "en") {
                 enElements.forEach(el => el.style.display = 'none');
                 rwElements.forEach(el => el.style.display = 'inline-block');
                 btn.innerText = "English";
-                window.currentLanguageState = "rw";
+                window.activeLanguage = "rw";
             } else {
                 enElements.forEach(el => el.style.display = 'inline-block');
                 rwElements.forEach(el => el.style.display = 'none');
                 btn.innerText = "Kinyarwanda";
-                window.currentLanguageState = "en";
+                window.activeLanguage = "en";
             }
         }
     </script>
