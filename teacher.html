@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTC - Teacher Portal</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Deep Tech Blue */
+            --secondary-color: #2563eb; /* Modern Blue */
+            --accent-color: #ef4444; /* Exam Red/Alert */
+            --success-color: #10b981; /* Green */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Dynamic Styling */
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-brand {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            color: white;
+        }
+        .sidebar-brand span { color: var(--secondary-color); }
+
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .menu-item.active a, .menu-item a:hover {
+            background: rgba(37, 99, 235, 0.15);
+            color: white;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .teacher-info-bar {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+        }
+        .teacher-info-bar span strong { color: var(--secondary-color); }
+
+        /* Form Layout */
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+        }
+
+        .panel-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .panel-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+        }
+        .form-control:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .submit-btn:hover { background: var(--secondary-color); }
+
+        .lang-rw { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-brand">ASTC<span>.</span> Instructor</div>
+        <ul class="menu-list">
+            <li class="menu-item active">
+                <a href="#"><i class="fa-solid fa-chalkboard-user"></i> <span class="lang-en">Dashboard</span><span class="lang-rw">Ahabanza</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="chat.html" style="background: var(--secondary-color); color: white;">
+                    <i class="fa-solid fa-comments"></i> 
+                    <span class="lang-en">Classroom Chat</span><span class="lang-rw">Uruganiriro</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i> <span class="lang-en">Logout</span><span class="lang-rw">Gusohoka</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content Workspace -->
+    <div class="main-content">
+        <div class="header-area">
+            <div>
+                <h1 class="lang-en">Instructor Control Panel</h1>
+                <h1 class="lang-rw">Umwanya w'Umwarimu</h1>
+                <p style="color:#64748b;" class="lang-en">Upload quiz assessments, exam reference URLs, and class announcements.</p>
+                <p style="color:#64748b;" class="lang-rw">Shyiraho ama-link y'ibizamini, n'amatangazo y'abanyeshuri bawe.</p>
+            </div>
+            <button onclick="toggleLanguage()" style="background:white; border:1px solid var(--border-color); padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fa-solid fa-language"></i> Toggle Language</button>
+        </div>
+
+        <!-- Instructor Info Bar -->
+        <div class="teacher-info-bar">
+            <span><i class="fa-solid fa-user-tie"></i> <span class="lang-en">Instructor:</span><span class="lang-rw">Umwarimu:</span> <strong>Teacher Claude</strong></span>
+            <span><i class="fa-solid fa-layer-group"></i> <span class="lang-en">Assigned Department:</span><span class="lang-rw">Ikiro:</span> <strong>Software Development</strong></span>
+        </div>
+
+        <!-- Forms Section -->
+        <div class="management-grid">
+            
+            <!-- 1. ADD QUIZ / EXAM LINK FORM -->
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-file-signature" style="color:var(--accent-color);"></i> <span class="lang-en">Publish Quiz / Exam Link</span><span class="lang-rw">Shyiraho Link y'Ikizamini</span></h2>
+                <form id="examForm">
+                    <div class="form-group">
+                        <label class="lang-en">Assessment Title</label><label class="lang-rw">Umutwe w'Ikizamini</label>
+                        <input type="text" id="examTitle" class="form-control" required placeholder="e.g. JavaScript Basics - Quiz 2">
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Google Form / Quiz URL Link</label><label class="lang-rw">Link y'Ikizamini (Google Form/Quiz Link)</label>
+                        <input type="url" id="examLink" class="form-control" required placeholder="https://forms.google.com/your-quiz-id">
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Submission Deadline</label><label class="lang-rw">Itariki Ntarengwa</label>
+                        <input type="date" id="examDeadline" class="form-control" required>
+                    </div>
+                    <button type="submit" class="submit-btn lang-en" style="background: var(--accent-color);">Publish to Student Portal</button>
+                    <button type="submit" class="submit-btn lang-rw" style="background: var(--accent-color);">Ohereza kuri Portal y'Abanyeshuri</button>
+                </form>
+            </div>
+
+            <!-- 2. ADD STUDENT NOTICE FORM -->
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-bullhorn" style="color:var(--success-color);"></i> <span class="lang-en">Send Notice to Students</span><span class="lang-rw">Tanga Itangazo rya Gicuti</span></h2>
+                <form id="studentNoticeForm">
+                    <div class="form-group">
+                        <label class="lang-en">Notice Heading</label><label class="lang-rw">Umutwe w'Itangazo</label>
+                        <input type="text" id="noticeTitle" class="form-control" required placeholder="e.g. Code Lab Hours Update">
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Message Text</label><label class="lang-rw">Ubutumwa nyizina</label>
+                        <textarea id="noticeMessage" class="form-control" rows="4" required placeholder="Write details for your class here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn lang-en" style="background: var(--success-color);">Post Notice</button>
+                    <button type="submit" class="submit-btn lang-rw" style="background: var(--success-color);">Kwirakwiza Itangazo</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FIREBASE PORTAL SYSTEM ENGINE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Configuration (Iyawe bwite)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
+            authDomain: "astc-424a7.firebaseapp.com",
+            projectId: "astc-424a7",
+            storageBucket: "astc-424a7.firebasestorage.app",
+            messagingSenderId: "1019297443056",
+            appId: "1:1019297443056:web:8626d2276340f08a7a2635",
+            measurementId: "G-CKM32596L1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. DYNAMIC ACTION: KOHEREZA LINK Y'IKIZAMINI MURI FIREBASE
+        // Iyi function iyo umwarimu ayujuje ihita ishyira data muri collection ya "exams"
+        const examForm = document.getElementById('examForm');
+        examForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('examTitle').value;
+            const link = document.getElementById('examLink').value;
+            const deadline = document.getElementById('examDeadline').value;
+
+            try {
+                await addDoc(collection(db, "exams"), {
+                    title: title,
+                    link: link,
+                    deadline: deadline,
+                    instructor: "Teacher Claude",
+                    timestamp: serverTimestamp()
+                });
+                alert("Exam / Quiz Link successfully linked to Student Portal!");
+                examForm.reset();
+            } catch (error) {
+                console.error("Error creating exam link: ", error);
+            }
+        });
+
+        // 2. DYNAMIC ACTION: KOHEREZA ITANGAZO RY'ABANYESHURI GUSA MURI FIREBASE
+        // Iyi form ihita ishyira ubutumwa muri collection ya "student_notices" maze abanyeshuri bakabona ku rundi ruhande
+        const studentNoticeForm = document.getElementById('studentNoticeForm');
+        studentNoticeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('noticeTitle').value;
+            const message = document.getElementById('noticeMessage').value;
+
+            try {
+                await addDoc(collection(db, "student_notices"), {
+                    title: title,
+                    message: message,
+                    timestamp: serverTimestamp()
+                });
+                alert("Notice sent to student environment successfully!");
+                studentNoticeForm.reset();
+            } catch (error) {
+                console.error("Error sending notice: ", error);
+            }
+        });
+    </script>
+
+    <!-- Language Toggle Switch Script -->
+    <script>
+        let currentLang = "en";
+        function toggleLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            
+            if (currentLang === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+                currentLang = "rw";
+            } else {
+                enElements.forEach(el => el.style.display = 'inline-block');
+                rwElements.forEach(el => el.style.display = 'none');
+                currentLang = "en";
+            }
+        }
+    </script>
+</body>
+</html>
