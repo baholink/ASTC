@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASTC - Administration Dashboard</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f172a; /* Deep Tech Blue */
+            --secondary-color: #2563eb; /* Modern Blue */
+            --accent-color: #f59e0b; /* Alert Gold */
+            --success-color: #10b981; /* Green */
+            --danger-color: #ef4444; /* Red */
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Dynamic Styling */
+        .sidebar {
+            width: 260px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .sidebar-brand {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            color: white;
+        }
+        .sidebar-brand span { color: var(--secondary-color); }
+
+        .menu-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-item a, .logout-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item.active a, .menu-item a:hover, .logout-link:hover {
+            background: rgba(37, 99, 235, 0.15);
+            color: white;
+        }
+
+        .logout-link:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+        }
+
+        /* Chat Notification Button Specifics */
+        .chat-alert-btn {
+            background: var(--secondary-color) !important;
+            color: white !important;
+            margin-top: 20px;
+            position: relative;
+        }
+        .chat-alert-btn:hover { background: #1d4ed8 !important; }
+        .notification-badge {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            position: absolute;
+            right: 15px;
+            font-weight: bold;
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Stats Cards Layout */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .stat-info h3 { font-size: 28px; font-weight: 700; margin-top: 5px; }
+        .stat-info p { font-size: 14px; color: #64748b; font-weight: 500; }
+        .stat-icon { font-size: 32px; color: #cbd5e1; }
+
+        /* Management Grid Components */
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .panel-card h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+        .form-control {
+            width: 100%; padding: 12px;
+            border: 1px solid var(--border-color); border-radius: 6px;
+            outline: none; font-size: 15px;
+        }
+        .form-control:focus { border-color: var(--secondary-color); }
+
+        .submit-btn {
+            background: var(--primary-color); color: white;
+            border: none; padding: 12px 25px; border-radius: 6px;
+            cursor: pointer; font-weight: bold; transition: 0.3s; width: 100%;
+        }
+        .submit-btn:hover { background: var(--secondary-color); }
+
+        /* Student Approvals Full Width Panel */
+        .full-width-card {
+            background: white; padding: 30px; border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-top: 30px;
+        }
+        .full-width-card h2 { font-size: 18px; margin-bottom: 20px; color: var(--primary-color); display: flex; align-items: center; gap: 10px; }
+
+        /* Responsive Table Container */
+        .table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; }
+        .approval-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .approval-table th, .approval-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); }
+        .approval-table th { background-color: #f1f5f9; color: #475569; font-weight: 600; }
+        
+        .action-btns { display: flex; gap: 8px; }
+        .btn-approve { background: var(--success-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .btn-reject { background: var(--danger-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .btn-approve:hover { background: #059669; }
+        .btn-reject:hover { background: #dc2626; }
+        
+        .empty-state { text-align: center; color: #64748b; padding: 20px; font-style: italic; }
+
+        .lang-rw { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-brand">ASTC<span>.</span> Admin</div>
+        <ul class="menu-list">
+            <li class="menu-item active">
+                <a href="#"><i class="fa-solid fa-chart-pie"></i> <span class="lang-en">Dashboard</span><span class="lang-rw">Ibibanza</span></a>
+            </li>
+            <li class="menu-item">
+                <a href="chat.html" class="chat-alert-btn">
+                    <i class="fa-solid fa-comments"></i> 
+                    <span class="lang-en">Live Chat</span><span class="lang-rw">Uruganiriro</span>
+                    <span class="notification-badge" id="chatCount">0</span>
+                </a>
+            </li>
+            <li style="margin-top: auto;">
+                <a onclick="adminLogout()" class="logout-link"><i class="fa-solid fa-right-from-bracket"></i> <span class="lang-en">Log Out</span><span class="lang-rw">Sohoka</span></a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Dynamic Interface -->
+    <div class="main-content">
+        <div class="header-area">
+            <div>
+                <h1 class="lang-en">Welcome, Administrator</h1>
+                <h1 class="lang-rw">Murakaza neza, Muyobozi</h1>
+                <p style="color:#64748b;" class="lang-en">Manage campus parameters, events, and data structures.</p>
+                <p style="color:#64748b;" class="lang-rw">Cunga ibikorwa, amatangazo, n'imibare by'ikigo.</p>
+            </div>
+            <button onclick="toggleLanguage()" style="background:white; border:1px solid var(--border-color); padding:10px 20px; border-radius:6px; cursor:pointer; font-weight:600;"><i class="fa-solid fa-language"></i> Toggle Language</button>
+        </div>
+
+        <!-- Campus Stats Counter Section -->
+        <div class="stats-grid">
+            <div class="stat-card" style="border-left-color: var(--secondary-color);">
+                <div class="stat-info">
+                    <p class="lang-en">Total Students</p><p class="lang-rw">Abanyeshuri bose</p>
+                    <h3 id="statStudents">...</h3>
+                </div>
+                <div class="stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--success-color);">
+                <div class="stat-info">
+                    <p class="lang-en">Active Teachers</p><p class="lang-rw">Abarimu bari mu kazi</p>
+                    <h3 id="statTeachers">...</h3>
+                </div>
+                <div class="stat-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--accent-color);">
+                <div class="stat-info">
+                    <p class="lang-en">Training Courses</p><p class="lang-rw">Imyuga Yanditswe</p>
+                    <h3>6</h3>
+                </div>
+                <div class="stat-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            </div>
+        </div>
+
+        <!-- NEW: STUDENT REGISTRATION APPROVAL PANEL -->
+        <div class="full-width-card">
+            <h2><i class="fa-solid fa-user-check" style="color:var(--secondary-color);"></i> <span class="lang-en">Pending Student Registrations</span><span class="lang-rw">Abanyeshuri Bategereje Kwemezwa</span></h2>
+            <div class="table-responsive">
+                <table class="approval-table">
+                    <thead>
+                        <tr>
+                            <th><span class="lang-en">Reg Number</span><span class="lang-rw">Kode y'Ishuri</span></th>
+                            <th><span class="lang-en">Full Name</span><span class="lang-rw">Amazina</span></th>
+                            <th>Email</th>
+                            <th>Faculty</th>
+                            <th><span class="lang-en">Actions</span><span class="lang-rw">Ibikorwa</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="approvalTableBody">
+                        <tr>
+                            <td colspan="5" class="empty-state">Loading pending applications...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br><br>
+
+        <!-- Management Entry Actions (Publishing) -->
+        <div class="management-grid">
+            
+            <!-- 1. POST ANNOUNCEMENT FORM -->
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-bullhorn" style="color:var(--secondary-color);"></i> <span class="lang-en">Publish New Announcement</span><span class="lang-rw">Shyiraho Itangazo Rishya</span></h2>
+                <form id="announcementForm">
+                    <div class="form-group">
+                        <label class="lang-en">Announcement Title (English)</label><label class="lang-rw">Umutwe w'Itangazo (Mu Cyongereza)</label>
+                        <input type="text" id="annTitleEn" class="form-control" required placeholder="e.g. Exam Schedule Release">
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Announcement Title (Kinyarwanda)</label><label class="lang-rw">Umutwe w'Itangazo (Mu Kinyarwanda)</label>
+                        <input type="text" id="annTitleRw" class="form-control" required placeholder="Urugero: Gahunda y'Ibiza">
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Detailed Message</label><label class="lang-rw">Ubutumwa Burambuye</label>
+                        <textarea id="annContent" class="form-control" rows="4" required placeholder="Write info here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn lang-en">Publish Announcement</button>
+                    <button type="submit" class="submit-btn lang-rw">Kwirakwiza Itangazo</button>
+                </form>
+            </div>
+
+            <!-- 2. POST BLOG / ARTICLES FORM -->
+            <div class="panel-card">
+                <h2><i class="fa-solid fa-newspaper" style="color:var(--success-color);"></i> <span class="lang-en">Create Blog Post / Event</span><span class="lang-rw">Andika Inkuru / Blog nshya</span></h2>
+                <form id="blogForm">
+                    <div class="form-group">
+                        <label class="lang-en">Blog Title</label><label class="lang-rw">Umutwe w'Inyandiko</label>
+                        <input type="text" id="blogTitle" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Category / Tag</label><label class="lang-rw">Ikiciro (Urugero: Graduation, Event)</label>
+                        <input type="text" id="blogTag" class="form-control" placeholder="e.g. Graduation 2026, Technology" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="lang-en">Summary Text</label><label class="lang-rw">Incamake y'Inkuru</label>
+                        <textarea id="blogSummary" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn lang-en" style="background: var(--success-color);">Post Article</button>
+                    <button type="submit" class="submit-btn lang-rw" style="background: var(--success-color);">Tangaza Inkuru</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FIREBASE SYSTEM MODULES -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, updateDoc, deleteDoc, doc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhQn1FZzjWTv39hvq3a1IrSigRocYAboI",
+            authDomain: "astc-424a7.firebaseapp.com",
+            projectId: "astc-424a7",
+            storageBucket: "astc-424a7.firebasestorage.app",
+            messagingSenderId: "1019297443056",
+            appId: "1:1019297443056:web:8626d2276340f08a7a2635",
+            measurementId: "G-CKM32596L1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 1. CHAT BADGE COUNT CONNECTION
+        onSnapshot(collection(db, "chats"), (snapshot) => {
+            document.getElementById('chatCount').innerText = snapshot.size;
+        });
+
+        // 2. REAL-TIME CAMPUS COUNTERS (AUTOMATED FROM DATABASE)
+        onSnapshot(collection(db, "users"), (snapshot) => {
+            let studentCount = 0;
+            let teacherCount = 0;
+
+            snapshot.forEach((doc) => {
+                const userData = doc.data();
+                if(userData.role === "student") studentCount++;
+                if(userData.role === "teacher") teacherCount++;
+            });
+
+            document.getElementById('statStudents').innerText = studentCount;
+            document.getElementById('statTeachers').innerText = teacherCount;
+        });
+
+        // 3. FETCH AND MANAGE PENDING STUDENTS LIST
+        const pendingQuery = query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "pending"));
+        
+        onSnapshot(pendingQuery, (snapshot) => {
+            const tbody = document.getElementById('approvalTableBody');
+            tbody.innerHTML = ""; // To clear loading text
+
+            if (snapshot.empty) {
+                tbody.innerHTML = `<tr><td colspan="5" class="empty-state">No pending registrations available.</td></tr>`;
+                return;
+            }
+
+            snapshot.forEach((userDoc) => {
+                const user = userDoc.data();
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td style="font-weight:bold; color:var(--secondary-color);">${user.username}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.faculty}</td>
+                    <td class="action-btns">
+                        <button class="btn-approve" data-id="${userDoc.id}"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="btn-reject" data-id="${userDoc.id}"><i class="fa-solid fa-trash"></i> Reject</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Bind Approval Logic Click Buttons
+            document.querySelectorAll('.btn-approve').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const docId = e.target.getAttribute('data-id');
+                    try {
+                        await updateDoc(doc(db, "users", docId), { status: "approved" });
+                        alert("Student approved successfully!");
+                    } catch(err) { console.error(err); }
+                });
+            });
+
+            // Bind Rejection Logic Click Buttons
+            document.querySelectorAll('.btn-reject').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    if(confirm("Are you sure you want to reject/delete this registration?")) {
+                        const docId = e.target.getAttribute('data-id');
+                        try {
+                            await deleteDoc(doc(db, "users", docId));
+                            alert("Student registration rejected.");
+                        } catch(err) { console.error(err); }
+                    }
+                });
+            });
+        });
+
+        // 4. POST ANNOUNCEMENT FORM
+        const announcementForm = document.getElementById('announcementForm');
+        announcementForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const titleEn = document.getElementById('annTitleEn').value;
+            const titleRw = document.getElementById('annTitleRw').value;
+            const content = document.getElementById('annContent').value;
+
+            try {
+                await addDoc(collection(db, "announcements"), {
+                    title_en: titleEn,
+                    title_rw: titleRw,
+                    message: content,
+                    date: new Date().toLocaleDateString('en-GB'),
+                    timestamp: serverTimestamp()
+                });
+                alert("Announcement posted successfully on ASTC Network!");
+                announcementForm.reset();
+            } catch (error) { console.error(error); }
+        });
+
+        // 5. POST BLOG FORM
+        const blogForm = document.getElementById('blogForm');
+        blogForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('blogTitle').value;
+            const tag = document.getElementById('blogTag').value;
+            const summary = document.getElementById('blogSummary').value;
+
+            try {
+                await addDoc(collection(db, "blogs"), {
+                    title: title,
+                    tag: tag,
+                    summary: summary,
+                    timestamp: serverTimestamp()
+                });
+                alert("Blog post created successfully!");
+                blogForm.reset();
+            } catch (error) { console.error(error); }
+        });
+
+        // 6. GLOBAL LOGOUT TRIGGER
+        window.adminLogout = function() {
+            if(confirm("Are you sure you want to exit the dashboard?")) {
+                localStorage.removeItem('astc_user_role'); // Clear dynamic session key
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+
+    <!-- Language Controls Engine -->
+    <script>
+        let currentLang = "en";
+        function toggleLanguage() {
+            const enElements = document.querySelectorAll('.lang-en');
+            const rwElements = document.querySelectorAll('.lang-rw');
+            
+            if (currentLang === "en") {
+                enElements.forEach(el => el.style.display = 'none');
+                rwElements.forEach(el => el.style.display = 'inline-block');
+                currentLang = "rw";
+            } else {
+                enElements.forEach(el => el.style.display = 'inline-block');
+                rwElements.forEach(el => el.style.display = 'none');
+                currentLang = "en";
+            }
+        }
+    </script>
+</body>
+</html>
